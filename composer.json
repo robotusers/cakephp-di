@@ -1,7 +1,7 @@
 {
 	"name": "robotusers/cakephp-di",
 	"description": "PSR-11 compatible CakePHP Dependency Injector Container abstraction plugin",
-	"homepage": "https://github.com/robotusers/cakephp-excel",
+	"homepage": "https://github.com/robotusers/cakephp-di",
 	"type": "cakephp-plugin",
 	"require": {
 		"php": ">=5.6",
@@ -11,7 +11,8 @@
 	"require-dev": {
 		"cakephp/cakephp": "dev-3.next as 3.5.0",
 		"cakephp/cakephp-codesniffer": "*",
-		"phpunit/phpunit": "^5.6|^6"
+		"phpunit/phpunit": "^5.6|^6",
+		"phpstan/phpstan": "^0.7"
 	},
 	"autoload": {
 		"psr-4": {
