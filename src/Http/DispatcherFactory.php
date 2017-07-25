@@ -25,20 +25,28 @@
 
 namespace Robotusers\Di\Http;
 
-use Cake\Http\BaseApplication as CakeBaseApplication;
+use Robotusers\Di\Core\ContainerApplicationInterface;
+use Cake\Routing\DispatcherFactory as RoutingDispatcherFactory;
 
 /**
- * BaseApplication
+ * Description of DispatcherFactory
  *
  * @author Robert Pustułka <r.pustulka@robotusers.com>
  */
-abstract class BaseApplication extends CakeBaseApplication
+class DispatcherFactory
 {
-    /**
-     * {@inheritDoc}
-     */
-    protected function getDispatcher()
+    public static function create($application)
     {
-        return DispatcherFactory::create($this);
+        $filters = RoutingDispatcherFactory::filters();
+
+        if ($application instanceof ContainerApplicationInterface) {
+            $container = $application->container();
+            $factory = new ControllerFactory($container);
+            $dispatcher = new ActionDispatcher($factory, null, $filters);
+
+            return $dispatcher;
+        }
+
+        return new ActionDispatcher(null, null, $filters);
     }
 }
