@@ -25,10 +25,10 @@
 namespace Robotusers\Di\Http;
 
 use Cake\Controller\Controller;
+use Cake\Controller\Exception\MissingActionException;
 use Cake\Http\ControllerFactory as BaseControllerFactory;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
-use Cake\Mailer\Exception\MissingActionException;
 use LogicException;
 use Psr\Container\ContainerInterface;
 use ReflectionMethod;
@@ -78,7 +78,7 @@ class ControllerFactory extends BaseControllerFactory
      *
      * @return mixed The resulting response.
      * @throws \LogicException When request is not set.
-     * @throws \Cake\Controller\Exception\MissingActionException When actions are not defined or inaccessible.
+     * @throws MissingActionException When actions are not defined or inaccessible.
      */
     public function invokeAction(Controller $controller)
     {
@@ -86,7 +86,14 @@ class ControllerFactory extends BaseControllerFactory
         if (!isset($request)) {
             throw new LogicException('No Request object configured. Cannot invoke action');
         }
-        if (!$controller->isAction($request->getParam('action'))) {
+
+        $action = $request->getParam('action');
+
+        if (!method_exists($controller, $action)) {
+            return $controller->invokeAction();
+        }
+
+        if (!$controller->isAction($action)) {
             throw new MissingActionException([
                 'controller' => $controller->name . 'Controller',
                 'action' => $request->getParam('action'),
@@ -95,9 +102,7 @@ class ControllerFactory extends BaseControllerFactory
             ]);
         }
 
-        $action = $request->getParam('action');
-
-        $reflector = new ReflectionMethod($this, $action);
+        $reflector = new ReflectionMethod($controller, $action);
 
         /* @var $parameters ReflectionParameter[] */
         $parameters = $reflector->getParameters();
