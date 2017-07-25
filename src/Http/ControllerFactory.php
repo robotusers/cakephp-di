@@ -107,22 +107,29 @@ class ControllerFactory extends BaseControllerFactory
         /* @var $parameters ReflectionParameter[] */
         $parameters = $reflector->getParameters();
 
-        $args = array_values($request->getParam('pass'));
+        $passed = $request->getParam('pass');
+        $args = [];
         foreach ($parameters as $parameter) {
-            $class = $parameter->getClass();
-            if ($class) {
-                $id = $class->getName();
+            $name = $parameter->getName();
+            if (isset($passed[$name])) {
+                $args[] = $passed[$name];
+                unset($passed[$name]);
             } else {
-                $id = $parameter->getName();
-            }
-            if ($this->container->has($id)) {
-                $args = $this->container->get($id);
+                $class = $parameter->getClass();
+                if ($class) {
+                    $id = $class->getName();
+                } else {
+                    $id = $name;
+                }
+                if ($this->container->has($id)) {
+                    $args[] = $this->container->get($id);
+                }
             }
         }
 
         /* @var callable $callable */
         $callable = [$controller, $action];
 
-        return $callable(...$args);
+        return $callable(...array_merge($args, array_values($passed)));
     }
 }
