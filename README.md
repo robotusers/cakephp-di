@@ -1,5 +1,5 @@
 # CakePHP DI
-PSR-11 compatible CakePHP Dependency Injector Container abstraction plugin
+PSR-11 compatible CakePHP Dependency Injection Container abstraction plugin
 
 ## Under development
 
