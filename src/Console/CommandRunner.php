@@ -26,6 +26,7 @@ namespace Robotusers\Di\Console;
 
 use Cake\Console\CommandRunner as BaseCommandRunner;
 use Cake\Console\ConsoleIo;
+use Cake\Console\Shell;
 use Robotusers\Di\Core\ContainerApplicationInterface;
 
 /**
@@ -56,7 +57,9 @@ class CommandRunner extends BaseCommandRunner
         }
 
         $shell = $this->container->get($className);
-        $shell->setIo($io);
+        if ($shell instanceof Shell) {
+            $shell->setIo($io);
+        }
 
         return $shell;
     }
