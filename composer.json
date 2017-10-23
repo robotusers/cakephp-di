@@ -1,6 +1,6 @@
 {
 	"name": "robotusers/cakephp-di",
-	"description": "PSR-11 compatible CakePHP Dependency Injector Container abstraction plugin",
+	"description": "PSR-11 compatible CakePHP Dependency Injection Container abstraction plugin",
 	"homepage": "https://github.com/robotusers/cakephp-di",
 	"type": "cakephp-plugin",
 	"require": {
