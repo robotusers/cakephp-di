@@ -24,5 +24,16 @@
 			"Cake\\Test\\": "vendor/cakephp/cakephp/tests",
 			"Robotusers\\Di\\Test\\": "tests"
 		}
-	}
+	},
+    "scripts": {
+        "check": [
+            "@test",
+            "@stan-check",
+            "@cs-check"
+        ],
+        "cs-check": "phpcs --colors -p ./src ./tests",
+        "cs-fix": "phpcbf --colors ./src ./tests",
+        "stan-check": "phpstan analyse ./src -l 2",
+        "test": "phpunit --colors=always --coverage-clover=coverage.xml"
+    }
 }
