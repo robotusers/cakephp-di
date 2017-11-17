@@ -25,6 +25,7 @@
 
 namespace Robotusers\Di\ORM\Locator;
 
+use Cake\ORM\Table;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -34,13 +35,23 @@ use Psr\Container\ContainerInterface;
  */
 class ContainerFactory
 {
+    /**
+     * @var ContainerInterface
+     */
     protected $container;
 
+    /**
+     * @param ContainerInterface $container PSR Container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
+    /**
+     * @param array $options Options.
+     * @return Table
+     */
     public function __invoke(array $options)
     {
         return $this->container->get($options['className']);

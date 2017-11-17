@@ -47,7 +47,7 @@ class ControllerFactory extends BaseControllerFactory
     protected $container;
 
     /**
-     * @param ContainerInterface $container
+     * @param ContainerInterface $container PSR Container
      */
     public function __construct(ContainerInterface $container)
     {
@@ -76,6 +76,7 @@ class ControllerFactory extends BaseControllerFactory
      * Dispatches the controller action. Checks that the action
      * exists and isn't private.
      *
+     * @param Controller $controller Controller.
      * @return mixed The resulting response.
      * @throws \LogicException When request is not set.
      * @throws MissingActionException When actions are not defined or inaccessible.

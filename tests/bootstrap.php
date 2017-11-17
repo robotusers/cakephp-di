@@ -31,7 +31,6 @@ if (file_exists($root . '/config/bootstrap.php')) {
 
 require $root . '/vendor/cakephp/cakephp/tests/bootstrap.php';
 
-Plugin::load('Robotusers/Excel', [
-    'path' => PLUGIN_ROOT . DS,
-    'bootstrap' => true
+Plugin::load('Robotusers/Di', [
+    'path' => PLUGIN_ROOT . DS
 ]);

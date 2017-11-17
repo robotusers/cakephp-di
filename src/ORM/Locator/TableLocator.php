@@ -41,7 +41,7 @@ class TableLocator extends BaseTableLocator
 
     /**
      *
-     * @param callable $factory
+     * @param callable $factory Table factory.
      */
     public function __construct(callable $factory)
     {

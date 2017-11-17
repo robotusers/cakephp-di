@@ -27,6 +27,7 @@ namespace Robotusers\Di\Console;
 use Cake\Console\CommandRunner as BaseCommandRunner;
 use Cake\Console\ConsoleIo;
 use Cake\Console\Shell;
+use Psr\Container\ContainerInterface;
 use Robotusers\Di\Core\ContainerApplicationInterface;
 
 /**
@@ -36,6 +37,9 @@ use Robotusers\Di\Core\ContainerApplicationInterface;
  */
 class CommandRunner extends BaseCommandRunner
 {
+    /**
+     * @var ContainerInterface|null
+     */
     protected $container;
 
     /**
@@ -50,6 +54,9 @@ class CommandRunner extends BaseCommandRunner
         parent::run($argv, $io);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function createShell($className, ConsoleIo $io)
     {
         if ($this->container === null) {

@@ -25,8 +25,9 @@
 
 namespace Robotusers\Di\Http;
 
-use Robotusers\Di\Core\ContainerApplicationInterface;
+use Cake\Core\HttpApplicationInterface;
 use Cake\Routing\DispatcherFactory as RoutingDispatcherFactory;
+use Robotusers\Di\Core\ContainerApplicationInterface;
 
 /**
  * Description of DispatcherFactory
@@ -35,6 +36,11 @@ use Cake\Routing\DispatcherFactory as RoutingDispatcherFactory;
  */
 class DispatcherFactory
 {
+
+    /**
+     * @param HttpApplicationInterface $application Application
+     * @return ActionDispatcher
+     */
     public static function create($application)
     {
         $filters = RoutingDispatcherFactory::filters();

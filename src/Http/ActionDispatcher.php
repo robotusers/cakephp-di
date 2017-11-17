@@ -38,6 +38,9 @@ use LogicException;
 class ActionDispatcher extends BaseActionDispatcher
 {
 
+    /**
+     * {@inheritDoc}
+     */
     protected function _invoke(Controller $controller)
     {
         $this->dispatchEvent('Dispatcher.invokeController', ['controller' => $controller]);
@@ -69,5 +72,4 @@ class ActionDispatcher extends BaseActionDispatcher
 
         return $response;
     }
-    
 }
