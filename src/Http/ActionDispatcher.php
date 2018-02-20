@@ -28,7 +28,9 @@ namespace Robotusers\Di\Http;
 use Cake\Controller\Controller;
 use Cake\Http\ActionDispatcher as BaseActionDispatcher;
 use Cake\Http\Response;
+use Cake\Routing\DispatcherFactory;
 use LogicException;
+use Robotusers\Di\Core\ContainerApplicationInterface;
 
 /**
  * Description of ActionDispatcher
@@ -60,16 +62,34 @@ class ActionDispatcher extends BaseActionDispatcher
         }
 
         if (!$response && $controller->autoRender) {
-            $response = $controller->render();
-        } elseif (!$response) {
-            $response = $controller->response;
+            $controller->render();
         }
 
         $result = $controller->shutdownProcess();
         if ($result instanceof Response) {
             return $result;
         }
+        if (!$response) {
+            $response = $controller->response;
+        }
 
         return $response;
+    }
+
+    /**
+     * Creates a action dispatcher instance.
+     *
+     * @param ContainerApplicationInterface $application Application
+     * @return ActionDispatcher
+     */
+    public static function create(ContainerApplicationInterface $application)
+    {
+        $filters = DispatcherFactory::filters();
+
+        $container = $application->getContainer();
+        $factory = new ControllerFactory($container);
+        $dispatcher = new self($factory, null, $filters);
+
+        return $dispatcher;
     }
 }
