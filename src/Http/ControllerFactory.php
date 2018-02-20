@@ -47,6 +47,8 @@ class ControllerFactory extends BaseControllerFactory
     protected $container;
 
     /**
+     * Constructor.
+     *
      * @param ContainerInterface $container PSR Container
      */
     public function __construct(ContainerInterface $container)
@@ -60,12 +62,12 @@ class ControllerFactory extends BaseControllerFactory
     public function create(ServerRequest $request, Response $response)
     {
         $className = $this->getControllerClass($request);
-        if (!$className) {
+        if ($className === null) {
             $this->missingController($request);
         }
 
         /* @var $controller Controller */
-        $controller = $this->container->get($className);
+        $controller = $this->container->get((string)$className);
         $controller->setRequest($request);
         $controller->response = $response;
 
@@ -78,7 +80,7 @@ class ControllerFactory extends BaseControllerFactory
      *
      * @param Controller $controller Controller.
      * @return mixed The resulting response.
-     * @throws \LogicException When request is not set.
+     * @throws LogicException When request is not set.
      * @throws MissingActionException When actions are not defined or inaccessible.
      */
     public function invokeAction(Controller $controller)
