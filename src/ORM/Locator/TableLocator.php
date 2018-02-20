@@ -27,7 +27,7 @@ namespace Robotusers\Di\ORM\Locator;
 use Cake\ORM\Locator\TableLocator as BaseTableLocator;
 
 /**
- * TableLocator
+ * Table locator with support for a factory.
  *
  * @author Robert Pustułka <r.pustulka@robotusers.com>
  */
@@ -40,6 +40,7 @@ class TableLocator extends BaseTableLocator
     protected $factory;
 
     /**
+     * Constructor.
      *
      * @param callable $factory Table factory.
      */

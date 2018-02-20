@@ -49,6 +49,8 @@ class ContainerFactory
     }
 
     /**
+     * Retrieves a table instance from a container.
+     *
      * @param array $options Options.
      * @return Table
      */
