@@ -24,6 +24,8 @@
  */
 namespace Robotusers\Di\Core;
 
+use Psr\Container\ContainerInterface;
+
 /**
  * Description of ContainerApplicationInterface
  *
@@ -33,7 +35,11 @@ interface ContainerApplicationInterface
 {
 
     /**
-     * @return \Psr\Container\ContainerInterface
+     * Returns a Dependency Injection Container instance.
+     *
+     * This method MUST return the same instance on every call.
+     *
+     * @return ContainerInterface
      */
-    public function container();
+    public function getContainer();
 }
