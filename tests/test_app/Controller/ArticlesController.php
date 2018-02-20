@@ -22,26 +22,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Robotusers\Di\Test\TestSuite;
+namespace TestApp\Controller;
 
-use Cake\Core\Configure;
-use Cake\TestSuite\TestCase as BaseTestCase;
-use TestApp\Application;
+use Cake\Controller\Controller;
+use Cake\ORM\Locator\LocatorInterface;
 
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
-class TestCase extends BaseTestCase
+class ArticlesController extends Controller
 {
-    public function setUp()
+    public function view($id, LocatorInterface $locator)
     {
-        parent::setUp();
-
-        Configure::write('App.namespace', 'TestApp');
-    }
-
-    protected function getApplication($container)
-    {
-        return new Application(PLUGIN_ROOT . DS . 'tests' . DS . 'test_app', $container);
     }
 }
