@@ -26,19 +26,71 @@
 namespace Robotusers\Di\Http;
 
 use Cake\Http\BaseApplication as CakeBaseApplication;
+use Cake\ORM\TableRegistry;
+use Psr\Container\ContainerInterface;
+use Robotusers\Di\Core\ContainerApplicationInterface;
+use Robotusers\Di\ORM\Locator\ContainerFactory;
+use Robotusers\Di\ORM\Locator\TableLocator;
 
 /**
  * BaseApplication
  *
  * @author Robert Pustułka <r.pustulka@robotusers.com>
  */
-abstract class BaseApplication extends CakeBaseApplication
+abstract class BaseApplication extends CakeBaseApplication implements ContainerApplicationInterface
 {
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function bootstrap()
+    {
+        parent::bootstrap();
+
+        $tableLocator = $this->createTableLocator();
+        TableRegistry::setTableLocator($tableLocator);
+    }
+
+    /**
+     * This methods creates a default table locator that leverages app's DIC.
+     *
+     * @return TableLocator
+     */
+    protected function createTableLocator()
+    {
+        $factory = new ContainerFactory($this->getContainer());
+
+        return new TableLocator($factory);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getContainer()
+    {
+        if ($this->container === null) {
+            $this->container = $this->createContainer();
+        }
+
+        return $this->container;
+    }
+
+    /**
+     * This method should create and configure a DI Container used by the application.
+     *
+     * @return ContainerInterface
+     */
+    abstract protected function createContainer();
+
     /**
      * {@inheritDoc}
      */
     protected function getDispatcher()
     {
-        return DispatcherFactory::create($this);
+        return ActionDispatcher::create($this);
     }
 }
