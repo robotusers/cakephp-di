@@ -2,7 +2,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017 Robert Pustułka <r.pustulka@robotusers.com>.
+ * Copyright 2017 Robert Pustułka <robert.pustulka@gmail.com>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ use Cake\ORM\Locator\TableLocator as BaseTableLocator;
 /**
  * Table locator with support for a factory.
  *
- * @author Robert Pustułka <r.pustulka@robotusers.com>
+ * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
 class TableLocator extends BaseTableLocator
 {

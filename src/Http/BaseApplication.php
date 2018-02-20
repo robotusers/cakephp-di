@@ -2,7 +2,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017 Robert Pustułka <r.pustulka@robotusers.com>.
+ * Copyright 2017 Robert Pustułka <robert.pustulka@gmail.com>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,9 +33,7 @@ use Robotusers\Di\ORM\Locator\ContainerFactory;
 use Robotusers\Di\ORM\Locator\TableLocator;
 
 /**
- * BaseApplication
- *
- * @author Robert Pustułka <r.pustulka@robotusers.com>
+ * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
 abstract class BaseApplication extends CakeBaseApplication implements ContainerApplicationInterface
 {

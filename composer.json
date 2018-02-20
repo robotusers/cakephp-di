@@ -1,30 +1,37 @@
 {
-	"name": "robotusers/cakephp-di",
-	"description": "PSR-11 compatible CakePHP Dependency Injection Container abstraction plugin",
-	"homepage": "https://github.com/robotusers/cakephp-di",
-	"type": "cakephp-plugin",
-	"require": {
-		"php": ">=5.6",
-		"cakephp/cakephp": "^3.5",
-		"psr/container": "^1.0"
-	},
-	"require-dev": {
-		"cakephp/cakephp": "~3.5.0",
-		"cakephp/cakephp-codesniffer": "*",
-		"phpunit/phpunit": "^5.6|^6",
-		"phpstan/phpstan": "^0.7"
-	},
-	"autoload": {
-		"psr-4": {
-			"Robotusers\\Di\\": "src"
-		}
-	},
-	"autoload-dev": {
-		"psr-4": {
-			"Cake\\Test\\": "vendor/cakephp/cakephp/tests",
-			"Robotusers\\Di\\Test\\": "tests"
-		}
-	},
+    "name": "robotusers/cakephp-di",
+    "description": "PSR-11 compatible CakePHP Dependency Injection Container abstraction plugin",
+    "homepage": "https://github.com/robotusers/cakephp-di",
+    "type": "cakephp-plugin",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.6",
+        "cakephp/cakephp": "^3.5",
+        "psr/container": "^1.0"
+    },
+    "authors": [
+        {
+            "name": "Robert Pustułka",
+            "email": "robert.pustulka@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "cakephp/cakephp": "~3.5.0",
+        "cakephp/cakephp-codesniffer": "*",
+        "phpunit/phpunit": "^5.6|^6",
+        "phpstan/phpstan": "^0.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Robotusers\\Di\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Cake\\Test\\": "vendor/cakephp/cakephp/tests",
+            "Robotusers\\Di\\Test\\": "tests"
+        }
+    },
     "scripts": {
         "check": [
             "@test",
