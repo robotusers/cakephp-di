@@ -22,33 +22,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Robotusers\Di\Test\TestCase\Http;
+namespace Robotusers\Di\Test\TestSuite;
 
-use Cake\ORM\TableRegistry;
-use Psr\Container\ContainerInterface;
-use Robotusers\Di\ORM\Locator\TableLocator;
-use Robotusers\Di\Test\TestSuite\TestCase;
+use Cake\TestSuite\TestCase as BaseTestCase;
+use TestApp\Application;
 
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
-class BaseApplicationTest extends TestCase
+class TestCase extends BaseTestCase
 {
-    public function testContainer()
+
+    protected function getApplication($container)
     {
-        $container = $this->createMock(ContainerInterface::class);
-        $app = $this->getApplication($container);
-
-        $this->assertSame($container, $app->getContainer());
-    }
-
-    public function testLocator()
-    {
-        $container = $this->createMock(ContainerInterface::class);
-        $app = $this->getApplication($container);
-        $app->bootstrap();
-
-        $locator = TableRegistry::getTableLocator();
-        $this->assertInstanceOf(TableLocator::class, $locator);
+        return new Application(PLUGIN_ROOT . DS . 'tests' . DS . 'test_app', $container);
     }
 }
