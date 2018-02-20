@@ -27,7 +27,6 @@ namespace Robotusers\Di\Console;
 use Cake\Console\CommandRunner as BaseCommandRunner;
 use Cake\Console\ConsoleIo;
 use Cake\Console\Shell;
-use Psr\Container\ContainerInterface;
 use Robotusers\Di\Core\ContainerApplicationInterface;
 
 /**
@@ -38,32 +37,15 @@ use Robotusers\Di\Core\ContainerApplicationInterface;
 class CommandRunner extends BaseCommandRunner
 {
     /**
-     * @var ContainerInterface|null
-     */
-    protected $container;
-
-    /**
-     * {@inheritDoc}
-     */
-    public function run(array $argv, ConsoleIo $io = null)
-    {
-        if ($this->app instanceof ContainerApplicationInterface) {
-            $this->container = $this->app->container();
-        }
-
-        parent::run($argv, $io);
-    }
-
-    /**
      * {@inheritDoc}
      */
     protected function createShell($className, ConsoleIo $io)
     {
-        if ($this->container === null) {
+        if (!$this->app instanceof ContainerApplicationInterface) {
             return parent::createShell($className, $io);
         }
 
-        $shell = $this->container->get($className);
+        $shell = $this->app->getContainer()->get($className);
         if ($shell instanceof Shell) {
             $shell->setIo($io);
         }
