@@ -39,7 +39,10 @@ class ActionDispatcher extends BaseActionDispatcher
 {
 
     /**
-     * {@inheritDoc}
+     * Invokes an action.
+     *
+     * @param Controller $controller Controller.
+     * @return Response|null
      */
     protected function _invoke(Controller $controller)
     {

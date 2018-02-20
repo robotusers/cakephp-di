@@ -18,8 +18,7 @@
     "require-dev": {
         "cakephp/cakephp": "~3.5.0",
         "cakephp/cakephp-codesniffer": "*",
-        "phpunit/phpunit": "^5.6|^6",
-        "phpstan/phpstan": "^0.7"
+        "phpunit/phpunit": "^5.6|^6"
     },
     "autoload": {
         "psr-4": {
@@ -41,7 +40,7 @@
         ],
         "cs-check": "phpcs --colors -p ./src ./tests",
         "cs-fix": "phpcbf --colors ./src ./tests",
-        "stan-check": "phpstan analyse ./src -l 2",
+        "stan-check": "phpstan analyse ./src -l 7",
         "test": "phpunit --colors=always --coverage-clover=coverage.xml"
     }
 }
