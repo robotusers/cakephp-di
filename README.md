@@ -71,4 +71,51 @@ The `ArticlesServiceInterface` instance will be injected into the method.
 
 ## Console
 
-*TODO*
+In order to fetch a shell from a DIC you need to use a `CommandRunner` provided
+with this plugin.
+
+In your `bin/cake.php` file change the `CommandRunner` class:
+
+```php
+...
+
+use App\Application;
+use Robotusers\Di\Console\CommandRunner; //use this instead of core Cake\Console\CommandRunner
+
+$application = new Application(dirname(__DIR__) . '/config');
+$runner = new CommandRunner($application, 'cake');
+exit($runner->run($argv));
+```
+
+## Table Locator
+
+Extending `Robotusers\DI\Http\BaseApplication` provides you with a DIC aware
+implementation of `TableLocator`. During the bootstrapping process the global
+instance of table locator is injected into `TableRegistry`.
+
+Table locator replacement shipped with this plugin allows you to inject your own
+table factory.
+
+By default a `ContainerFactory` is used which retrieves a table from your DIC using
+table's class name as an `$id`. Note that options are not passed to the DIC as PSR-11
+implementation does not support passing extrac arguments to the `get()` method.
+
+You either need to configure your table options using `TableLocator::setConfig()`
+method or configure your container to pass correct options.
+
+You can also use custom implementation of table factory by overriding 
+`Application::createTableLocator()` method. Table factory must be a callable that
+accepts `$options` array.
+
+```php
+protected function createTableLocator()
+{
+    $factory = function($options) {
+        // retrieve a table from your DIC
+
+        return $table;
+    };
+
+    return new \Robotusers\Di\ORM\Locator\TableLocator($factory);
+}
+```
