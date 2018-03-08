@@ -71,6 +71,28 @@ The `ArticlesServiceInterface` instance will be injected into the method.
 
 ## Console
 
+### CakePHP +3.6.x
+
+In order to fetch a shell from a DIC you need to use a `CommandFactory` provided
+with this plugin.
+
+In your `bin/cake.php`:
+
+```php
+...
+
+use App\Application;
+use Cake\Console\CommandRunner
+use Robotusers\Di\Console\CommandFactory;
+
+$application = new Application(dirname(__DIR__) . '/config');
+$factory = new CommandFactory($application);
+$runner = new CommandRunner($application, 'cake', $factory);
+exit($runner->run($argv));
+```
+
+### CakePHP 3.5.x
+
 In order to fetch a shell from a DIC you need to use a `CommandRunner` provided
 with this plugin.
 
