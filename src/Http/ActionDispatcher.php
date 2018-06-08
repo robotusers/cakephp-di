@@ -62,7 +62,7 @@ class ActionDispatcher extends BaseActionDispatcher
             throw new LogicException('Controller actions can only return Cake\Http\Response or null.');
         }
 
-        if (!$response && $controller->autoRender) {
+        if (!$response && $controller->isAutoRenderEnabled()) {
             $controller->render();
         }
 

@@ -84,7 +84,7 @@ class ControllerFactory extends BaseControllerFactory
     public function invokeAction(Controller $controller)
     {
         $request = $controller->request;
-        if (!isset($request)) {
+        if (!$request) {
             throw new LogicException('No Request object configured. Cannot invoke action');
         }
 
@@ -96,7 +96,7 @@ class ControllerFactory extends BaseControllerFactory
 
         if (!$controller->isAction($action)) {
             throw new MissingActionException([
-                'controller' => $controller->name . 'Controller',
+                'controller' => $controller->getName() . 'Controller',
                 'action' => $request->getParam('action'),
                 'prefix' => $request->getParam('prefix') ?: '',
                 'plugin' => $request->getParam('plugin'),
