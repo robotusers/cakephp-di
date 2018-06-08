@@ -82,7 +82,7 @@ In your `bin/cake.php`:
 ...
 
 use App\Application;
-use Cake\Console\CommandRunner
+use Cake\Console\CommandRunner;
 use Robotusers\Di\Console\CommandFactory;
 
 $application = new Application(dirname(__DIR__) . '/config');
