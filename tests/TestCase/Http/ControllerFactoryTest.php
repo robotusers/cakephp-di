@@ -60,7 +60,7 @@ class ControllerFactoryTest extends TestCase
         $request = ServerRequestFactory::fromGlobals()
             ->withParam('controller', 'Articles')
             ->withParam('action', 'view')
-            ->withParam('pass', ['id' => 1]);
+            ->withParam('pass', [1]);
         $response = new Response;
 
         $controller = new ArticlesController($request, $response);

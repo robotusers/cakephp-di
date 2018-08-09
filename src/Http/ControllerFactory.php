@@ -110,27 +110,27 @@ class ControllerFactory extends BaseControllerFactory
 
         $passed = $request->getParam('pass');
         $args = [];
+        $i = 0;
         foreach ($parameters as $parameter) {
-            $name = $parameter->getName();
-            if (isset($passed[$name])) {
-                $args[] = $passed[$name];
-                unset($passed[$name]);
+            if (isset($passed[$i])) {
+                $args[] = $passed[$i];
             } else {
                 $class = $parameter->getClass();
                 if ($class) {
                     $id = $class->getName();
                 } else {
-                    $id = $name;
+                    $id = $parameter->getName();
                 }
                 if ($this->container->has($id)) {
                     $args[] = $this->container->get($id);
                 }
             }
+            $i++;
         }
 
         /* @var callable $callable */
         $callable = [$controller, $action];
 
-        return $callable(...array_merge($args, array_values($passed)));
+        return $callable(...$args);
     }
 }
