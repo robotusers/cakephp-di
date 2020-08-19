@@ -28,25 +28,18 @@ use Cake\ORM\Table;
 use Cake\TestSuite\TestCase;
 use Psr\Container\ContainerInterface;
 use Robotusers\Di\ORM\Locator\ContainerFactory;
-
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
-class ContainerFactoryTest extends TestCase
+class ContainerFactoryTest extends \Cake\TestSuite\TestCase
 {
     public function testInvoke()
     {
-        $table = $this->createMock(Table::class);
-        $container = $this->createMock(ContainerInterface::class);
-
-        $container->expects($this->once())
-            ->method('get')
-            ->with(Table::class)
-            ->willReturn($table);
-
-        $factory = new ContainerFactory($container);
-
-        $result = $factory(['className' => Table::class]);
+        $table = $this->createMock(\Cake\ORM\Table::class);
+        $container = $this->createMock(\Psr\Container\ContainerInterface::class);
+        $container->expects($this->once())->method('get')->with(\Cake\ORM\Table::class)->willReturn($table);
+        $factory = new \Robotusers\Di\ORM\Locator\ContainerFactory($container);
+        $result = $factory(['className' => \Cake\ORM\Table::class]);
         $this->assertSame($table, $result);
     }
 }

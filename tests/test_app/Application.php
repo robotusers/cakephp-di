@@ -26,31 +26,25 @@ namespace TestApp;
 
 use Robotusers\Di\Http\BaseApplication;
 use TestApp\Shell\TestShell;
-
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
-class Application extends BaseApplication
+class Application extends \Robotusers\Di\Http\BaseApplication
 {
     protected $container;
-
     public function __construct($configDir, \Psr\Container\ContainerInterface $container)
     {
         parent::__construct($configDir);
-
         $this->container = $container;
     }
-
     public function console($commands)
     {
-        return $commands->add('test', TestShell::class);
+        return $commands->add('test', \TestApp\Shell\TestShell::class);
     }
-
     protected function createContainer()
     {
         return $this->container;
     }
-
     public function middleware($middleware)
     {
         return $middleware;

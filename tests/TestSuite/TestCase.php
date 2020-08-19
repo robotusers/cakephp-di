@@ -27,21 +27,18 @@ namespace Robotusers\Di\Test\TestSuite;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase as BaseTestCase;
 use TestApp\Application;
-
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
-class TestCase extends BaseTestCase
+class TestCase extends \Cake\TestSuite\TestCase
 {
     public function setUp()
     {
         parent::setUp();
-
-        Configure::write('App.namespace', 'TestApp');
+        \Cake\Core\Configure::write('App.namespace', 'TestApp');
     }
-
     protected function getApplication($container)
     {
-        return new Application(PLUGIN_ROOT . DS . 'tests' . DS . 'test_app', $container);
+        return new \TestApp\Application(PLUGIN_ROOT . DS . 'tests' . DS . 'test_app', $container);
     }
 }

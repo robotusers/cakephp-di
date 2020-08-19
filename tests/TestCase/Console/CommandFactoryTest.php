@@ -29,30 +29,20 @@ use Cake\TestSuite\TestCase;
 use Psr\Container\ContainerInterface;
 use Robotusers\Di\Console\CommandFactory;
 use Robotusers\Di\Core\ContainerApplicationInterface;
-
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
-class CommandFactoryTest extends TestCase
+class CommandFactoryTest extends \Cake\TestSuite\TestCase
 {
     public function testCreate()
     {
-        $command = $this->createMock(Command::class);
+        $command = $this->createMock(\Cake\Console\Command::class);
         $name = get_class($command);
-
-        $container = $this->createMock(ContainerInterface::class);
-        $container->expects($this->once())
-            ->method('get')
-            ->with($name)
-            ->willReturn($command);
-
-        $app = $this->createMock(ContainerApplicationInterface::class);
-        $app->expects($this->once())
-            ->method('getContainer')
-            ->willReturn($container);
-
-        $factory = new CommandFactory($app);
-
+        $container = $this->createMock(\Psr\Container\ContainerInterface::class);
+        $container->expects($this->once())->method('get')->with($name)->willReturn($command);
+        $app = $this->createMock(\Robotusers\Di\Core\ContainerApplicationInterface::class);
+        $app->expects($this->once())->method('getContainer')->willReturn($container);
+        $factory = new \Robotusers\Di\Console\CommandFactory($app);
         $result = $factory->create($name);
         $this->assertSame($command, $result);
     }

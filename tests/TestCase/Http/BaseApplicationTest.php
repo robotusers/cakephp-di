@@ -28,27 +28,23 @@ use Cake\ORM\TableRegistry;
 use Psr\Container\ContainerInterface;
 use Robotusers\Di\ORM\Locator\TableLocator;
 use Robotusers\Di\Test\TestSuite\TestCase;
-
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
-class BaseApplicationTest extends TestCase
+class BaseApplicationTest extends \Robotusers\Di\Test\TestSuite\TestCase
 {
     public function testContainer()
     {
-        $container = $this->createMock(ContainerInterface::class);
+        $container = $this->createMock(\Psr\Container\ContainerInterface::class);
         $app = $this->getApplication($container);
-
         $this->assertSame($container, $app->getContainer());
     }
-
     public function testLocator()
     {
-        $container = $this->createMock(ContainerInterface::class);
+        $container = $this->createMock(\Psr\Container\ContainerInterface::class);
         $app = $this->getApplication($container);
         $app->bootstrap();
-
-        $locator = TableRegistry::getTableLocator();
-        $this->assertInstanceOf(TableLocator::class, $locator);
+        $locator = \Cake\ORM\TableRegistry::getTableLocator();
+        $this->assertInstanceOf(\Robotusers\Di\ORM\Locator\TableLocator::class, $locator);
     }
 }

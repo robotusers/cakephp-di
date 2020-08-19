@@ -27,26 +27,22 @@ namespace Robotusers\Di\Test\TestCase\ORM\Locator;
 use Cake\ORM\Table;
 use Cake\TestSuite\TestCase;
 use Robotusers\Di\ORM\Locator\TableLocator;
-
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
-class TableLocatorTest extends TestCase
+class TableLocatorTest extends \Cake\TestSuite\TestCase
 {
     public function testGet()
     {
-        $table = new Table;
+        $table = new \Cake\ORM\Table();
         $called = false;
         $factory = function ($options) use (&$called, &$table) {
             $called = true;
             $this->assertEquals('Authors', $options['alias']);
-
             return $table;
         };
-
-        $locator = new TableLocator($factory);
+        $locator = new \Robotusers\Di\ORM\Locator\TableLocator($factory);
         $result = $locator->get('Authors');
-
         $this->assertTrue($called);
         $this->assertSame($table, $result);
     }
