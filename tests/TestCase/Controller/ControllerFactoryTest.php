@@ -28,8 +28,9 @@ namespace Robotusers\Di\Test\TestCase\Http;
 
 use Cake\Http\Response;
 use Cake\Http\ServerRequestFactory;
+use Cake\ORM\Locator\LocatorInterface;
 use Psr\Container\ContainerInterface;
-use Robotusers\Di\Http\ControllerFactory;
+use Robotusers\Di\Controller\ControllerFactory;
 use Robotusers\Di\Test\TestSuite\TestCase;
 use TestApp\Controller\ArticlesController;
 
@@ -57,10 +58,10 @@ class ControllerFactoryTest extends TestCase
         $response = new Response();
         $controller = new ArticlesController($request, $response);
         $container = $this->createMock(ContainerInterface::class);
-        $locator = $this->createMock(\Cake\ORM\Locator\LocatorInterface::class);
-        $container->expects($this->at(0))->method('has')->with(\Cake\ORM\Locator\LocatorInterface::class)->willReturn(true);
-        $container->expects($this->at(1))->method('get')->with(\Cake\ORM\Locator\LocatorInterface::class)->willReturn($locator);
+        $locator = $this->createMock(LocatorInterface::class);
+        $container->expects($this->at(0))->method('has')->with(LocatorInterface::class)->willReturn(true);
+        $container->expects($this->at(1))->method('get')->with(LocatorInterface::class)->willReturn($locator);
         $factory = new ControllerFactory($container);
-        $factory->invokeAction($controller);
+        $factory->invoke($controller);
     }
 }

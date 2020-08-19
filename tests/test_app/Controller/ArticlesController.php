@@ -36,5 +36,6 @@ class ArticlesController extends Controller
 {
     public function view($id, LocatorInterface $locator)
     {
+        $this->disableAutoRender();
     }
 }
