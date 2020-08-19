@@ -31,6 +31,7 @@ use Cake\Event\EventManagerInterface;
 use Cake\Http\BaseApplication as CakeApplication;
 use Cake\Http\ControllerFactoryInterface;
 use Cake\ORM\TableRegistry;
+use Psr\Container\ContainerInterface;
 use Robotusers\Di\Controller\ControllerFactory;
 use Robotusers\Di\Core\ContainerApplicationInterface;
 use Robotusers\Di\ORM\Locator\ContainerFactory;
@@ -80,7 +81,7 @@ abstract class BaseApplication extends CakeApplication implements ContainerAppli
     /**
      * @inheritDoc
      */
-    public function getContainer()
+    public function getContainer(): ContainerInterface
     {
         if ($this->container === null) {
             $this->container = $this->createContainer();
@@ -106,5 +107,5 @@ abstract class BaseApplication extends CakeApplication implements ContainerAppli
      *
      * @return \Psr\Container\ContainerInterface
      */
-    abstract protected function createContainer();
+    abstract protected function createContainer(): ContainerInterface;
 }

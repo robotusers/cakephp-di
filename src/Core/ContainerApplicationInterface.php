@@ -26,6 +26,8 @@ declare(strict_types=1);
  */
 namespace Robotusers\Di\Core;
 
+use Psr\Container\ContainerInterface;
+
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
@@ -39,5 +41,5 @@ interface ContainerApplicationInterface
      *
      * @return \Psr\Container\ContainerInterface
      */
-    public function getContainer();
+    public function getContainer(): ContainerInterface;
 }
