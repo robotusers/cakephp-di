@@ -26,7 +26,6 @@ declare(strict_types=1);
  */
 namespace Robotusers\Di\Test\TestCase\Http;
 
-use Cake\Http\Response;
 use Cake\Http\ServerRequestFactory;
 use Cake\ORM\Locator\LocatorInterface;
 use Psr\Container\ContainerInterface;
@@ -42,25 +41,29 @@ class ControllerFactoryTest extends TestCase
 {
     public function testCreate()
     {
+        $request = ServerRequestFactory::fromGlobals()->withParam('controller', 'Articles');
+
         $controller = $this->createMock(ArticlesController::class);
+        $controller->expects($this->once())->method('setRequest')->with($request);
+
         $container = $this->createMock(ContainerInterface::class);
         $container->expects($this->once())->method('get')->with(ArticlesController::class)->willReturn($controller);
-        $request = ServerRequestFactory::fromGlobals()->withParam('controller', 'Articles');
-        $response = new Response();
+
         $factory = new ControllerFactory($container);
-        $result = $factory->create($request, $response);
+        $result = $factory->create($request);
         $this->assertSame($controller, $result);
     }
 
     public function testInvoke()
     {
         $request = ServerRequestFactory::fromGlobals()->withParam('controller', 'Articles')->withParam('action', 'view')->withParam('pass', [1]);
-        $response = new Response();
-        $controller = new ArticlesController($request, $response);
+        $controller = new ArticlesController($request);
+
         $container = $this->createMock(ContainerInterface::class);
         $locator = $this->createMock(LocatorInterface::class);
         $container->expects($this->at(0))->method('has')->with(LocatorInterface::class)->willReturn(true);
         $container->expects($this->at(1))->method('get')->with(LocatorInterface::class)->willReturn($locator);
+
         $factory = new ControllerFactory($container);
         $factory->invoke($controller);
     }
