@@ -26,6 +26,7 @@ declare(strict_types=1);
  */
 namespace Robotusers\Di\Test\TestCase\Http;
 
+use Cake\ORM\TableRegistry;
 use Psr\Container\ContainerInterface;
 use Robotusers\Di\ORM\Locator\TableLocator;
 use Robotusers\Di\Test\TestSuite\TestCase;
@@ -48,7 +49,7 @@ class BaseApplicationTest extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $app = $this->getApplication($container);
         $app->bootstrap();
-        $locator = \Cake\ORM\TableRegistry::getTableLocator();
+        $locator = TableRegistry::getTableLocator();
         $this->assertInstanceOf(TableLocator::class, $locator);
     }
 }

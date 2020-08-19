@@ -42,8 +42,8 @@ class Application extends BaseApplication
 
     public function __construct($configDir, ContainerInterface $container)
     {
-        parent::__construct($configDir);
         $this->container = $container;
+        parent::__construct($configDir);
     }
 
     public function console(CommandCollection $commands): CommandCollection
@@ -51,7 +51,7 @@ class Application extends BaseApplication
         return $commands->add('test', TestShell::class);
     }
 
-    protected function createContainer()
+    protected function createContainer(): ContainerInterface
     {
         return $this->container;
     }
