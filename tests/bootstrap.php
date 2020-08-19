@@ -6,6 +6,8 @@
  * has been installed as a dependency of the plugin, or the plugin is itself
  * installed as a dependency of an application.
  */
+
+use Cake\Core\BasePlugin;
 use Cake\Core\Plugin;
 
 $findRoot = function ($root) {
@@ -31,6 +33,7 @@ if (file_exists($root . '/config/bootstrap.php')) {
 
 require $root . '/vendor/cakephp/cakephp/tests/bootstrap.php';
 
-Plugin::load('Robotusers/Di', [
+Plugin::getCollection()->add(new BasePlugin([
+    'name' => 'Robotusers/Di',
     'path' => PLUGIN_ROOT . DS
-]);
+]));
