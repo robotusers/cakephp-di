@@ -47,7 +47,7 @@ abstract class BaseApplication extends CakeApplication implements ContainerAppli
     /**
      * @inheritDoc
      */
-    public function bootstrap()
+    public function bootstrap(): void
     {
         parent::bootstrap();
         $tableLocator = $this->createTableLocator();
@@ -59,7 +59,7 @@ abstract class BaseApplication extends CakeApplication implements ContainerAppli
      *
      * @return \Robotusers\Di\ORM\Locator\TableLocator
      */
-    protected function createTableLocator()
+    protected function createTableLocator(): TableLocator
     {
         $factory = new ContainerFactory($this->getContainer());
 

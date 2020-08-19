@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace Robotusers\Di\ORM\Locator;
 
 use Cake\ORM\Locator\TableLocator as BaseTableLocator;
+use Cake\ORM\Table;
 
 /**
  * Table locator with support for a factory.
@@ -55,7 +56,7 @@ class TableLocator extends BaseTableLocator
      * @inheritDoc
      * @param mixed[] $options Options
      */
-    protected function _create(array $options)
+    protected function _create(array $options): Table
     {
         $factory = $this->factory;
 
