@@ -26,6 +26,8 @@ declare(strict_types=1);
  */
 namespace TestApp;
 
+use Cake\Console\CommandCollection;
+use Cake\Http\MiddlewareQueue;
 use Psr\Container\ContainerInterface;
 use Robotusers\Di\Http\BaseApplication;
 use TestApp\Shell\TestShell;
@@ -44,7 +46,7 @@ class Application extends BaseApplication
         $this->container = $container;
     }
 
-    public function console($commands)
+    public function console(CommandCollection $commands): CommandCollection
     {
         return $commands->add('test', TestShell::class);
     }
@@ -54,7 +56,7 @@ class Application extends BaseApplication
         return $this->container;
     }
 
-    public function middleware($middleware)
+    public function middleware(MiddlewareQueue $middleware): MiddlewareQueue
     {
         return $middleware;
     }

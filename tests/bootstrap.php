@@ -1,6 +1,9 @@
 <?php
 declare(strict_types=1);
 
+use Cake\Core\BasePlugin;
+use Cake\Core\Plugin;
+
 /**
  * Test suite bootstrap.
  *
@@ -17,7 +20,7 @@ $findRoot = function ($root) {
             return $root;
         }
     } while ($root !== $lastRoot);
-    throw new \Exception('Cannot find the root of the application, unable to run tests');
+    throw new Exception('Cannot find the root of the application, unable to run tests');
 };
 $root = $findRoot(__FILE__);
 unset($findRoot);
@@ -31,4 +34,7 @@ if (\file_exists($root . '/config/bootstrap.php')) {
 
 require $root . '/vendor/cakephp/cakephp/tests/bootstrap.php';
 
-\Cake\Core\Plugin::load('Robotusers/Di', ['path' => \PLUGIN_ROOT . \DS]);
+Plugin::getCollection()->add(new BasePlugin([
+    'name' => 'Robotusers/Di',
+    'path' => PLUGIN_ROOT . DS,
+]));
