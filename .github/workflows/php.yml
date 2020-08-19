@@ -18,7 +18,7 @@ jobs:
       run: composer validate
 
     - name: Cache Composer packages
-      id: composer-cache
+      id: composer-cache-2
       uses: actions/cache@v2
       with:
         path: vendor
