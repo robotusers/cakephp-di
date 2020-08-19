@@ -29,7 +29,6 @@ namespace Robotusers\Di\Http;
 
 use Cake\Http\BaseApplication as CakeApplication;
 use Cake\ORM\TableRegistry;
-use Psr\Container\ContainerInterface;
 use Robotusers\Di\Core\ContainerApplicationInterface;
 use Robotusers\Di\ORM\Locator\ContainerFactory;
 use Robotusers\Di\ORM\Locator\TableLocator;
@@ -41,7 +40,7 @@ use Robotusers\Di\ORM\Locator\TableLocator;
 abstract class BaseApplication extends CakeApplication implements ContainerApplicationInterface
 {
     /**
-     * @var ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $container;
 
@@ -58,7 +57,7 @@ abstract class BaseApplication extends CakeApplication implements ContainerAppli
     /**
      * This methods creates a default table locator that leverages app's DIC.
      *
-     * @return TableLocator
+     * @return \Robotusers\Di\ORM\Locator\TableLocator
      */
     protected function createTableLocator()
     {
@@ -82,7 +81,7 @@ abstract class BaseApplication extends CakeApplication implements ContainerAppli
     /**
      * This method should create and configure a DI Container used by the application.
      *
-     * @return ContainerInterface
+     * @return \Psr\Container\ContainerInterface
      */
     abstract protected function createContainer();
     /**

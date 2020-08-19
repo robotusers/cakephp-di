@@ -43,8 +43,8 @@ class ActionDispatcher extends BaseActionDispatcher
     /**
      * Invokes an action.
      *
-     * @param Controller $controller Controller.
-     * @return Response|null
+     * @param \Cake\Controller\Controller $controller Controller.
+     * @return \Cake\Http\Response|null
      */
     protected function _invoke(Controller $controller)
     {
@@ -78,8 +78,8 @@ class ActionDispatcher extends BaseActionDispatcher
     /**
      * Creates a action dispatcher instance.
      *
-     * @param ContainerApplicationInterface $application Application
-     * @return ActionDispatcher
+     * @param \Robotusers\Di\Core\ContainerApplicationInterface $application Application
+     * @return \Robotusers\Di\Http\ActionDispatcher
      */
     public static function create(ContainerApplicationInterface $application)
     {

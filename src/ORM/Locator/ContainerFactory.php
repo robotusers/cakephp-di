@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace Robotusers\Di\ORM\Locator;
 
-use Cake\ORM\Table;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -37,12 +36,12 @@ use Psr\Container\ContainerInterface;
 class ContainerFactory
 {
     /**
-     * @var ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $container;
 
     /**
-     * @param ContainerInterface $container PSR Container
+     * @param \Psr\Container\ContainerInterface $container PSR Container
      */
     public function __construct(ContainerInterface $container)
     {
@@ -53,7 +52,7 @@ class ContainerFactory
      * Retrieves a table instance from a container.
      *
      * @param array|mixed[] $options Options.
-     * @return Table
+     * @return \Cake\ORM\Table
      */
     public function __invoke(array $options)
     {

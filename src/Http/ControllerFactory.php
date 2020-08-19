@@ -31,10 +31,8 @@ use Cake\Controller\Exception\MissingActionException;
 use Cake\Http\ControllerFactory as BaseControllerFactory;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
-use LogicException;
 use Psr\Container\ContainerInterface;
 use ReflectionMethod;
-use ReflectionParameter;
 
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
@@ -43,14 +41,14 @@ use ReflectionParameter;
 class ControllerFactory extends BaseControllerFactory
 {
     /**
-     * @var ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $container;
 
     /**
      * Constructor.
      *
-     * @param ContainerInterface $container PSR Container
+     * @param \Psr\Container\ContainerInterface $container PSR Container
      */
     public function __construct(ContainerInterface $container)
     {
@@ -66,7 +64,7 @@ class ControllerFactory extends BaseControllerFactory
         if ($className === null) {
             $this->missingController($request);
         }
-        /** @var Controller $controller */
+        /** @var \Cake\Controller\Controller $controller */
         $controller = $this->container->get((string)$className);
         $controller->setRequest($request);
         $controller->response = $response;
@@ -78,10 +76,10 @@ class ControllerFactory extends BaseControllerFactory
      * Dispatches the controller action. Checks that the action
      * exists and isn't private.
      *
-     * @param Controller $controller Controller.
+     * @param \Cake\Controller\Controller $controller Controller.
      * @return mixed The resulting response.
-     * @throws LogicException When request is not set.
-     * @throws MissingActionException When actions are not defined or inaccessible.
+     * @throws \LogicException When request is not set.
+     * @throws \Cake\Controller\Exception\MissingActionException When actions are not defined or inaccessible.
      */
     public function invokeAction(Controller $controller)
     {
@@ -94,7 +92,7 @@ class ControllerFactory extends BaseControllerFactory
             throw new MissingActionException(['controller' => $controller->getName() . 'Controller', 'action' => $request->getParam('action'), 'prefix' => $request->getParam('prefix') ?: '', 'plugin' => $request->getParam('plugin')]);
         }
         $reflector = new ReflectionMethod($controller, $action);
-        /** @var ReflectionParameter[] $parameters */
+        /** @var \ReflectionParameter[] $parameters */
         $parameters = $reflector->getParameters();
         $passed = $request->getParam('pass');
         $args = [];

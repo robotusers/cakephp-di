@@ -38,14 +38,14 @@ use Robotusers\Di\Core\ContainerApplicationInterface;
 class CommandFactory implements CommandFactoryInterface
 {
     /**
-     * @var ContainerApplicationInterface
+     * @var \Robotusers\Di\Core\ContainerApplicationInterface
      */
     protected $app;
 
     /**
      * Constructor.
      *
-     * @param ContainerApplicationInterface $app DIC comaptible app.
+     * @param \Robotusers\Di\Core\ContainerApplicationInterface $app DIC comaptible app.
      */
     public function __construct(ContainerApplicationInterface $app)
     {
