@@ -34,6 +34,7 @@ use Cake\Http\ServerRequest;
 use LogicException;
 use Psr\Container\ContainerInterface;
 use ReflectionMethod;
+use ReflectionParameter;
 
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
@@ -65,7 +66,7 @@ class ControllerFactory extends BaseControllerFactory
         if ($className === null) {
             $this->missingController($request);
         }
-        /** @var \Robotusers\Di\Http\Controller $controller */
+        /** @var Controller $controller */
         $controller = $this->container->get((string)$className);
         $controller->setRequest($request);
         $controller->response = $response;
@@ -84,10 +85,7 @@ class ControllerFactory extends BaseControllerFactory
      */
     public function invokeAction(Controller $controller)
     {
-        $request = $controller->request;
-        if (!$request) {
-            throw new LogicException('No Request object configured. Cannot invoke action');
-        }
+        $request = $controller->getRequest();
         $action = $request->getParam('action');
         if (!method_exists($controller, $action)) {
             return $controller->invokeAction();
@@ -96,7 +94,7 @@ class ControllerFactory extends BaseControllerFactory
             throw new MissingActionException(['controller' => $controller->getName() . 'Controller', 'action' => $request->getParam('action'), 'prefix' => $request->getParam('prefix') ?: '', 'plugin' => $request->getParam('plugin')]);
         }
         $reflector = new ReflectionMethod($controller, $action);
-        /** @var \Robotusers\Di\Http\ReflectionParameter[] $parameters */
+        /** @var ReflectionParameter[] $parameters */
         $parameters = $reflector->getParameters();
         $passed = $request->getParam('pass');
         $args = [];

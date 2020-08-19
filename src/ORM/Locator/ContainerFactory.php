@@ -52,7 +52,7 @@ class ContainerFactory
     /**
      * Retrieves a table instance from a container.
      *
-     * @param array $options Options.
+     * @param array|mixed[] $options Options.
      * @return Table
      */
     public function __invoke(array $options)
