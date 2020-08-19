@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -29,9 +31,9 @@ use Psr\Container\ContainerInterface;
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
+
 interface ContainerApplicationInterface
 {
-
     /**
      * Returns a Dependency Injection Container instance.
      *

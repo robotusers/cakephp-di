@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -31,9 +33,9 @@ use Cake\ORM\Locator\TableLocator as BaseTableLocator;
  *
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
+
 class TableLocator extends BaseTableLocator
 {
-
     /**
      * @var callable
      */
@@ -50,7 +52,7 @@ class TableLocator extends BaseTableLocator
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     protected function _create(array $options)
     {

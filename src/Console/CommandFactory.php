@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -32,6 +34,7 @@ use Robotusers\Di\Core\ContainerApplicationInterface;
  *
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
+
 class CommandFactory implements CommandFactoryInterface
 {
     /**
@@ -50,7 +53,7 @@ class CommandFactory implements CommandFactoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function create($className)
     {

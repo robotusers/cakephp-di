@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -32,17 +34,17 @@ use Robotusers\Di\Core\ContainerApplicationInterface;
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
+
 class CommandRunner extends BaseCommandRunner
 {
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     protected function createShell($className, ConsoleIo $io)
     {
         if (!$this->app instanceof ContainerApplicationInterface) {
             return parent::createShell($className, $io);
         }
-
         $shell = $this->app->getContainer()->get($className);
         if ($shell instanceof Shell) {
             $shell->setIo($io);

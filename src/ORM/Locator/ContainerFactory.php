@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -31,6 +33,7 @@ use Psr\Container\ContainerInterface;
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
+
 class ContainerFactory
 {
     /**

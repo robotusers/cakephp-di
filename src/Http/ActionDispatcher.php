@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -35,9 +37,9 @@ use Robotusers\Di\Core\ContainerApplicationInterface;
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
+
 class ActionDispatcher extends BaseActionDispatcher
 {
-
     /**
      * Invokes an action.
      *
@@ -47,25 +49,21 @@ class ActionDispatcher extends BaseActionDispatcher
     protected function _invoke(Controller $controller)
     {
         $this->dispatchEvent('Dispatcher.invokeController', ['controller' => $controller]);
-
         $result = $controller->startupProcess();
         if ($result instanceof Response) {
             return $result;
         }
-
         if ($this->factory instanceof ControllerFactory) {
             $response = $this->factory->invokeAction($controller);
         } else {
             $response = $controller->invokeAction();
         }
-        if ($response !== null && !($response instanceof Response)) {
+        if ($response !== null && !$response instanceof Response) {
             throw new LogicException('Controller actions can only return Cake\Http\Response or null.');
         }
-
         if (!$response && $controller->isAutoRenderEnabled()) {
             $controller->render();
         }
-
         $result = $controller->shutdownProcess();
         if ($result instanceof Response) {
             return $result;
@@ -86,7 +84,6 @@ class ActionDispatcher extends BaseActionDispatcher
     public static function create(ContainerApplicationInterface $application)
     {
         $filters = DispatcherFactory::filters();
-
         $container = $application->getContainer();
         $factory = new ControllerFactory($container);
         $dispatcher = new self($factory, null, $filters);

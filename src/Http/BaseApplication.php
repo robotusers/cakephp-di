@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -25,7 +27,7 @@
 
 namespace Robotusers\Di\Http;
 
-use Cake\Http\BaseApplication as CakeBaseApplication;
+use Cake\Http\BaseApplication as CakeApplication;
 use Cake\ORM\TableRegistry;
 use Psr\Container\ContainerInterface;
 use Robotusers\Di\Core\ContainerApplicationInterface;
@@ -35,7 +37,8 @@ use Robotusers\Di\ORM\Locator\TableLocator;
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
-abstract class BaseApplication extends CakeBaseApplication implements ContainerApplicationInterface
+
+abstract class BaseApplication extends CakeApplication implements ContainerApplicationInterface
 {
     /**
      * @var ContainerInterface
@@ -43,12 +46,11 @@ abstract class BaseApplication extends CakeBaseApplication implements ContainerA
     protected $container;
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function bootstrap()
     {
         parent::bootstrap();
-
         $tableLocator = $this->createTableLocator();
         TableRegistry::setTableLocator($tableLocator);
     }
@@ -66,7 +68,7 @@ abstract class BaseApplication extends CakeBaseApplication implements ContainerA
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function getContainer()
     {
@@ -83,9 +85,8 @@ abstract class BaseApplication extends CakeBaseApplication implements ContainerA
      * @return ContainerInterface
      */
     abstract protected function createContainer();
-
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     protected function getDispatcher()
     {

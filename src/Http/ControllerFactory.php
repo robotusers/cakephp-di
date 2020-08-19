@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -32,11 +34,11 @@ use Cake\Http\ServerRequest;
 use LogicException;
 use Psr\Container\ContainerInterface;
 use ReflectionMethod;
-use ReflectionParameter;
 
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
+
 class ControllerFactory extends BaseControllerFactory
 {
     /**
@@ -55,7 +57,7 @@ class ControllerFactory extends BaseControllerFactory
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function create(ServerRequest $request, Response $response)
     {
@@ -63,8 +65,7 @@ class ControllerFactory extends BaseControllerFactory
         if ($className === null) {
             $this->missingController($request);
         }
-
-        /* @var $controller Controller */
+        /** @var \Robotusers\Di\Http\Controller $controller */
         $controller = $this->container->get((string)$className);
         $controller->setRequest($request);
         $controller->response = $response;
@@ -87,27 +88,16 @@ class ControllerFactory extends BaseControllerFactory
         if (!$request) {
             throw new LogicException('No Request object configured. Cannot invoke action');
         }
-
         $action = $request->getParam('action');
-
         if (!method_exists($controller, $action)) {
             return $controller->invokeAction();
         }
-
         if (!$controller->isAction($action)) {
-            throw new MissingActionException([
-                'controller' => $controller->getName() . 'Controller',
-                'action' => $request->getParam('action'),
-                'prefix' => $request->getParam('prefix') ?: '',
-                'plugin' => $request->getParam('plugin'),
-            ]);
+            throw new MissingActionException(['controller' => $controller->getName() . 'Controller', 'action' => $request->getParam('action'), 'prefix' => $request->getParam('prefix') ?: '', 'plugin' => $request->getParam('plugin')]);
         }
-
         $reflector = new ReflectionMethod($controller, $action);
-
-        /* @var $parameters ReflectionParameter[] */
+        /** @var \Robotusers\Di\Http\ReflectionParameter[] $parameters */
         $parameters = $reflector->getParameters();
-
         $passed = $request->getParam('pass');
         $args = [];
         $i = 0;
@@ -127,8 +117,7 @@ class ControllerFactory extends BaseControllerFactory
             }
             $i++;
         }
-
-        /* @var callable $callable */
+        /** @var callable $callable */
         $callable = [$controller, $action];
 
         return $callable(...$args);
