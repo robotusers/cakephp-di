@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -30,18 +32,22 @@ use Psr\Container\ContainerInterface;
 use Robotusers\Di\Console\CommandRunner;
 use TestApp\Application;
 use TestApp\Shell\TestShell;
+use const DS;
+use const PLUGIN_ROOT;
+
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
-class CommandRunnerTest extends \Cake\TestSuite\TestCase
+
+class CommandRunnerTest extends TestCase
 {
     public function testCreateShell()
     {
-        $container = $this->createMock(\Psr\Container\ContainerInterface::class);
-        $container->expects($this->once())->method('get')->with(\TestApp\Shell\TestShell::class)->willReturn(new \TestApp\Shell\TestShell());
-        $app = new \TestApp\Application(PLUGIN_ROOT . DS . 'tests' . DS . 'test_app', $container);
-        $commandRunner = new \Robotusers\Di\Console\CommandRunner($app);
-        $io = $this->createMock(\Cake\Console\ConsoleIo::class);
+        $container = $this->createMock(ContainerInterface::class);
+        $container->expects($this->once())->method('get')->with(TestShell::class)->willReturn(new TestShell());
+        $app = new Application(PLUGIN_ROOT . DS . 'tests' . DS . 'test_app', $container);
+        $commandRunner = new CommandRunner($app);
+        $io = $this->createMock(ConsoleIo::class);
         $result = $commandRunner->run(['cake', 'test'], $io);
         $this->assertEquals(1, $result);
     }

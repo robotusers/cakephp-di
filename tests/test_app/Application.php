@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -24,27 +26,34 @@
  */
 namespace TestApp;
 
+use Psr\Container\ContainerInterface;
 use Robotusers\Di\Http\BaseApplication;
 use TestApp\Shell\TestShell;
+
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
-class Application extends \Robotusers\Di\Http\BaseApplication
+
+class Application extends BaseApplication
 {
     protected $container;
-    public function __construct($configDir, \Psr\Container\ContainerInterface $container)
+
+    public function __construct($configDir, ContainerInterface $container)
     {
         parent::__construct($configDir);
         $this->container = $container;
     }
+
     public function console($commands)
     {
-        return $commands->add('test', \TestApp\Shell\TestShell::class);
+        return $commands->add('test', TestShell::class);
     }
+
     protected function createContainer()
     {
         return $this->container;
     }
+
     public function middleware($middleware)
     {
         return $middleware;

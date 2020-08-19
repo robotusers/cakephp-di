@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -24,7 +26,6 @@
  */
 namespace Robotusers\Di\Test\TestCase\Http;
 
-use Cake\Controller\Controller;
 use Cake\Http\ControllerFactory as ControllerFactory2;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
@@ -32,40 +33,44 @@ use Psr\Container\ContainerInterface;
 use Robotusers\Di\Http\ActionDispatcher;
 use Robotusers\Di\Http\ControllerFactory;
 use Robotusers\Di\Test\TestSuite\TestCase;
+
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
-class ActionDispatcherTest extends \Robotusers\Di\Test\TestSuite\TestCase
+
+class ActionDispatcherTest extends TestCase
 {
     public function testCreate()
     {
-        $container = $this->createMock(\Psr\Container\ContainerInterface::class);
+        $container = $this->createMock(ContainerInterface::class);
         $application = $this->getApplication($container);
-        $dispatcher = \Robotusers\Di\Http\ActionDispatcher::create($application);
-        $this->assertInstanceOf(\Robotusers\Di\Http\ActionDispatcher::class, $dispatcher);
+        $dispatcher = ActionDispatcher::create($application);
+        $this->assertInstanceOf(ActionDispatcher::class, $dispatcher);
     }
+
     public function testDispatch()
     {
         $controller = $this->createMock(\Cake\Controller\Controller::class);
-        $factory = $this->createMock(\Robotusers\Di\Http\ControllerFactory::class);
-        $request = new \Cake\Http\ServerRequest();
-        $response = new \Cake\Http\Response();
+        $factory = $this->createMock(ControllerFactory::class);
+        $request = new ServerRequest();
+        $response = new Response();
         $factory->expects($this->at(0))->method('create')->with($request, $response)->willReturn($controller);
         $factory->expects($this->at(1))->method('invokeAction')->with($controller)->willReturn($response);
-        $dispatcher = new \Robotusers\Di\Http\ActionDispatcher($factory);
+        $dispatcher = new ActionDispatcher($factory);
         $result = $dispatcher->dispatch($request, $response);
-        $this->assertInstanceOf(\Cake\Http\Response::class, $result);
+        $this->assertInstanceOf(Response::class, $result);
     }
+
     public function testDispatchRegular()
     {
         $controller = $this->createMock(\Cake\Controller\Controller::class);
-        $factory = $this->createMock(\Cake\Http\ControllerFactory::class);
-        $request = new \Cake\Http\ServerRequest();
-        $response = new \Cake\Http\Response();
+        $factory = $this->createMock(ControllerFactory2::class);
+        $request = new ServerRequest();
+        $response = new Response();
         $factory->expects($this->once())->method('create')->with($request, $response)->willReturn($controller);
         $controller->expects($this->once())->method('invokeAction')->willReturn($response);
-        $dispatcher = new \Robotusers\Di\Http\ActionDispatcher($factory);
+        $dispatcher = new ActionDispatcher($factory);
         $result = $dispatcher->dispatch($request, $response);
-        $this->assertInstanceOf(\Cake\Http\Response::class, $result);
+        $this->assertInstanceOf(Response::class, $result);
     }
 }

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * Test suite bootstrap.
  *
@@ -6,7 +8,6 @@
  * has been installed as a dependency of the plugin, or the plugin is itself
  * installed as a dependency of an application.
  */
-use Cake\Core\Plugin;
 
 $findRoot = function ($root) {
     do {
@@ -16,7 +17,7 @@ $findRoot = function ($root) {
             return $root;
         }
     } while ($root !== $lastRoot);
-    throw new \Exception("Cannot find the root of the application, unable to run tests");
+    throw new \Exception('Cannot find the root of the application, unable to run tests');
 };
 $root = $findRoot(__FILE__);
 unset($findRoot);

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -26,37 +28,39 @@ namespace Robotusers\Di\Test\TestCase\Http;
 
 use Cake\Http\Response;
 use Cake\Http\ServerRequestFactory;
-use Cake\ORM\Locator\LocatorInterface;
 use Psr\Container\ContainerInterface;
 use Robotusers\Di\Http\ControllerFactory;
 use Robotusers\Di\Test\TestSuite\TestCase;
 use TestApp\Controller\ArticlesController;
+
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
-class ControllerFactoryTest extends \Robotusers\Di\Test\TestSuite\TestCase
+
+class ControllerFactoryTest extends TestCase
 {
     public function testCreate()
     {
-        $controller = $this->createMock(\TestApp\Controller\ArticlesController::class);
-        $container = $this->createMock(\Psr\Container\ContainerInterface::class);
-        $container->expects($this->once())->method('get')->with(\TestApp\Controller\ArticlesController::class)->willReturn($controller);
-        $request = \Cake\Http\ServerRequestFactory::fromGlobals()->withParam('controller', 'Articles');
-        $response = new \Cake\Http\Response();
-        $factory = new \Robotusers\Di\Http\ControllerFactory($container);
+        $controller = $this->createMock(ArticlesController::class);
+        $container = $this->createMock(ContainerInterface::class);
+        $container->expects($this->once())->method('get')->with(ArticlesController::class)->willReturn($controller);
+        $request = ServerRequestFactory::fromGlobals()->withParam('controller', 'Articles');
+        $response = new Response();
+        $factory = new ControllerFactory($container);
         $result = $factory->create($request, $response);
         $this->assertSame($controller, $result);
     }
+
     public function testInvoke()
     {
-        $request = \Cake\Http\ServerRequestFactory::fromGlobals()->withParam('controller', 'Articles')->withParam('action', 'view')->withParam('pass', [1]);
-        $response = new \Cake\Http\Response();
-        $controller = new \TestApp\Controller\ArticlesController($request, $response);
-        $container = $this->createMock(\Psr\Container\ContainerInterface::class);
+        $request = ServerRequestFactory::fromGlobals()->withParam('controller', 'Articles')->withParam('action', 'view')->withParam('pass', [1]);
+        $response = new Response();
+        $controller = new ArticlesController($request, $response);
+        $container = $this->createMock(ContainerInterface::class);
         $locator = $this->createMock(\Cake\ORM\Locator\LocatorInterface::class);
         $container->expects($this->at(0))->method('has')->with(\Cake\ORM\Locator\LocatorInterface::class)->willReturn(true);
         $container->expects($this->at(1))->method('get')->with(\Cake\ORM\Locator\LocatorInterface::class)->willReturn($locator);
-        $factory = new \Robotusers\Di\Http\ControllerFactory($container);
+        $factory = new ControllerFactory($container);
         $factory->invokeAction($controller);
     }
 }
