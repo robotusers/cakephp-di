@@ -28,10 +28,10 @@ jobs:
 
     - name: Install dependencies
       if: steps.composer-cache.outputs.cache-hit != 'true'
-      run: composer install --prefer-dist --no-progress --no-suggest && composer require phpstan/phpstan --dev
-
+      run: composer install --prefer-dist --no-progress --no-suggest
+      
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run checks
-      run: composer run-script check
+      run: composer run-script test && composer run-script cs-c
