@@ -43,13 +43,16 @@ class TableLocator extends BaseTableLocator
     protected $factory;
 
     /**
-     * Constructor.
+     * Constructor
      *
-     * @param callable $factory Table factory.
+     * @param callable $factory Factory.
+     * @param array $locations Locations
      */
-    public function __construct(callable $factory)
+    public function __construct(callable $factory, ?array $locations = null)
     {
         $this->factory = $factory;
+
+        parent::__construct($locations);
     }
 
     /**
