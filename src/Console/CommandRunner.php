@@ -40,10 +40,10 @@ class CommandRunner extends BaseCommandRunner
     /**
      * @inheritDoc
      */
-    protected function createShell($className, ConsoleIo $io)
+    protected function createCommand($className, ConsoleIo $io)
     {
         if (!$this->app instanceof ContainerApplicationInterface) {
-            return parent::createShell($className, $io);
+            return parent::createCommand($className, $io);
         }
         $shell = $this->app->getContainer()->get($className);
         if ($shell instanceof Shell) {
