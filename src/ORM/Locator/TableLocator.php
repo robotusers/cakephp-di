@@ -54,7 +54,6 @@ class TableLocator extends BaseTableLocator
 
     /**
      * @inheritDoc
-     * @param mixed[] $options Options
      */
     protected function _create(array $options): Table
     {

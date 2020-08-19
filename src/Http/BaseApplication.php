@@ -51,8 +51,11 @@ abstract class BaseApplication extends CakeApplication implements ContainerAppli
     /**
      * @inheritDoc
      */
-    public function __construct(string $configDir, ?EventManagerInterface $eventManager = null, ?ControllerFactoryInterface $controllerFactory = null)
-    {
+    public function __construct(
+        string $configDir,
+        ?EventManagerInterface $eventManager = null,
+        ?ControllerFactoryInterface $controllerFactory = null
+    ) {
         parent::__construct($configDir, $eventManager, $controllerFactory ?? $this->createControllerFactory());
     }
 
