@@ -10,6 +10,8 @@ PSR-11 compatible CakePHP Dependency Injection Container abstraction plugin
 
 The plugin is under heavy development and not intended to use yet.
 
+For CakePHP 4.x try [0.2](https://github.com/robotusers/cakephp-di/tree/0.2) branch
+
 ## Container Abstraction
 
 This plugin provides tools for using any PSR-11 compatible DIC with CakePHP framework.
