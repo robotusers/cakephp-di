@@ -8,7 +8,11 @@ PSR-11 compatible CakePHP Dependency Injection Container abstraction plugin
 
 ## Under development
 
-The plugin is under heavy development and not intended to use yet.
+The plugin is under development and not intended to use in production yet.
+
+## Versions
+
+For CakePHP 3.x use 0.1.x versions. 0.2.x is intended for CakePHP 4.x
 
 ## Container Abstraction
 
