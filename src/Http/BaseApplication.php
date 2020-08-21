@@ -27,11 +27,12 @@ declare(strict_types=1);
 
 namespace Robotusers\Di\Http;
 
-use Cake\Event\EventManagerInterface;
 use Cake\Http\BaseApplication as CakeApplication;
 use Cake\Http\ControllerFactoryInterface;
 use Cake\ORM\TableRegistry;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Robotusers\Di\Controller\ControllerFactory;
 use Robotusers\Di\Core\ContainerApplicationInterface;
 use Robotusers\Di\ORM\Locator\ContainerFactory;
@@ -44,20 +45,9 @@ use Robotusers\Di\ORM\Locator\TableLocator;
 abstract class BaseApplication extends CakeApplication implements ContainerApplicationInterface
 {
     /**
-     * @var \Psr\Container\ContainerInterface
+     * @var ContainerInterface
      */
     protected $container;
-
-    /**
-     * @inheritDoc
-     */
-    public function __construct(
-        string $configDir,
-        ?EventManagerInterface $eventManager = null,
-        ?ControllerFactoryInterface $controllerFactory = null
-    ) {
-        parent::__construct($configDir, $eventManager, $controllerFactory ?? $this->createControllerFactory());
-    }
 
     /**
      * @inheritDoc
@@ -72,7 +62,7 @@ abstract class BaseApplication extends CakeApplication implements ContainerAppli
     /**
      * This methods creates a default table locator that leverages app's DIC.
      *
-     * @return \Robotusers\Di\ORM\Locator\TableLocator
+     * @return TableLocator
      */
     protected function createTableLocator(): TableLocator
     {
@@ -96,7 +86,7 @@ abstract class BaseApplication extends CakeApplication implements ContainerAppli
     /**
      * Creates a DIC compatible controller factory
      *
-     * @return \Cake\Http\ControllerFactoryInterface
+     * @return ControllerFactoryInterface
      */
     private function createControllerFactory(): ControllerFactoryInterface
     {
@@ -106,9 +96,21 @@ abstract class BaseApplication extends CakeApplication implements ContainerAppli
     }
 
     /**
+     * @inheritDoc
+     */
+    public function handle(ServerRequestInterface $request): ResponseInterface
+    {
+        if ($this->controllerFactory === null) {
+            $this->controllerFactory = $this->createControllerFactory();
+        }
+
+        return parent::handle($request);
+    }
+
+    /**
      * This method should create and configure a DI Container used by the application.
      *
-     * @return \Psr\Container\ContainerInterface
+     * @return ContainerInterface
      */
     abstract protected function createContainer(): ContainerInterface;
 }
