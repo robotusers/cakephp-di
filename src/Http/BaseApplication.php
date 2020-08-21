@@ -45,7 +45,7 @@ use Robotusers\Di\ORM\Locator\TableLocator;
 abstract class BaseApplication extends CakeApplication implements ContainerApplicationInterface
 {
     /**
-     * @var ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $container;
 
@@ -62,7 +62,7 @@ abstract class BaseApplication extends CakeApplication implements ContainerAppli
     /**
      * This methods creates a default table locator that leverages app's DIC.
      *
-     * @return TableLocator
+     * @return \Robotusers\Di\ORM\Locator\TableLocator
      */
     protected function createTableLocator(): TableLocator
     {
@@ -86,7 +86,7 @@ abstract class BaseApplication extends CakeApplication implements ContainerAppli
     /**
      * Creates a DIC compatible controller factory
      *
-     * @return ControllerFactoryInterface
+     * @return \Cake\Http\ControllerFactoryInterface
      */
     private function createControllerFactory(): ControllerFactoryInterface
     {
@@ -110,7 +110,7 @@ abstract class BaseApplication extends CakeApplication implements ContainerAppli
     /**
      * This method should create and configure a DI Container used by the application.
      *
-     * @return ContainerInterface
+     * @return \Psr\Container\ContainerInterface
      */
     abstract protected function createContainer(): ContainerInterface;
 }
