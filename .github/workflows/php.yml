@@ -18,7 +18,7 @@ jobs:
       run: composer validate
 
     - name: Cache Composer packages
-      id: composer-cache
+      id: composer-cache-2
       uses: actions/cache@v2
       with:
         path: vendor
@@ -35,3 +35,9 @@ jobs:
 
     - name: Run test
       run: composer run-script test
+
+    - name: CS check
+      run: composer run-script cs-check
+
+    - name: Stan check
+      run: composer require phpstan/phpstan && vendor/bin/phpstan analyse src -l 4

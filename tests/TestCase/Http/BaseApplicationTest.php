@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -32,13 +34,13 @@ use Robotusers\Di\Test\TestSuite\TestCase;
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
+
 class BaseApplicationTest extends TestCase
 {
     public function testContainer()
     {
         $container = $this->createMock(ContainerInterface::class);
         $app = $this->getApplication($container);
-
         $this->assertSame($container, $app->getContainer());
     }
 
@@ -47,7 +49,6 @@ class BaseApplicationTest extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $app = $this->getApplication($container);
         $app->bootstrap();
-
         $locator = TableRegistry::getTableLocator();
         $this->assertInstanceOf(TableLocator::class, $locator);
     }

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -31,5 +33,4 @@ use Cake\Console\Shell;
  */
 class TestShell extends Shell
 {
-
 }

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -34,5 +36,6 @@ class ArticlesController extends Controller
 {
     public function view($id, LocatorInterface $locator)
     {
+        $this->disableAutoRender();
     }
 }

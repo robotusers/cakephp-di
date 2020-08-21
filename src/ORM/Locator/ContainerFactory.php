@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -25,21 +27,21 @@
 
 namespace Robotusers\Di\ORM\Locator;
 
-use Cake\ORM\Table;
 use Psr\Container\ContainerInterface;
 
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
+
 class ContainerFactory
 {
     /**
-     * @var ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $container;
 
     /**
-     * @param ContainerInterface $container PSR Container
+     * @param \Psr\Container\ContainerInterface $container PSR Container
      */
     public function __construct(ContainerInterface $container)
     {
@@ -49,8 +51,8 @@ class ContainerFactory
     /**
      * Retrieves a table instance from a container.
      *
-     * @param array $options Options.
-     * @return Table
+     * @param array|mixed[] $options Options.
+     * @return \Cake\ORM\Table
      */
     public function __invoke(array $options)
     {

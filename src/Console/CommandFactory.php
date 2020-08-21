@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -32,17 +34,18 @@ use Robotusers\Di\Core\ContainerApplicationInterface;
  *
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
+
 class CommandFactory implements CommandFactoryInterface
 {
     /**
-     * @var ContainerApplicationInterface
+     * @var \Robotusers\Di\Core\ContainerApplicationInterface
      */
     protected $app;
 
     /**
      * Constructor.
      *
-     * @param ContainerApplicationInterface $app DIC comaptible app.
+     * @param \Robotusers\Di\Core\ContainerApplicationInterface $app DIC comaptible app.
      */
     public function __construct(ContainerApplicationInterface $app)
     {
@@ -50,7 +53,7 @@ class CommandFactory implements CommandFactoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function create($className)
     {

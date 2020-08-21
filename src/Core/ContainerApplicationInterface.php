@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -29,15 +31,15 @@ use Psr\Container\ContainerInterface;
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
+
 interface ContainerApplicationInterface
 {
-
     /**
      * Returns a Dependency Injection Container instance.
      *
      * This method MUST return the same instance on every call.
      *
-     * @return ContainerInterface
+     * @return \Psr\Container\ContainerInterface
      */
-    public function getContainer();
+    public function getContainer(): ContainerInterface;
 }
