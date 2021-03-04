@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -27,16 +29,18 @@ namespace Robotusers\Di\Test\TestSuite;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase as BaseTestCase;
 use TestApp\Application;
+use const DS;
+use const PLUGIN_ROOT;
 
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
+
 class TestCase extends BaseTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
-
         Configure::write('App.namespace', 'TestApp');
     }
 

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -25,9 +27,13 @@
 
 namespace Robotusers\Di\Http;
 
-use Cake\Http\BaseApplication as CakeBaseApplication;
+use Cake\Http\BaseApplication as CakeApplication;
+use Cake\Http\ControllerFactoryInterface;
 use Cake\ORM\TableRegistry;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Robotusers\Di\Controller\ControllerFactory;
 use Robotusers\Di\Core\ContainerApplicationInterface;
 use Robotusers\Di\ORM\Locator\ContainerFactory;
 use Robotusers\Di\ORM\Locator\TableLocator;
@@ -35,20 +41,20 @@ use Robotusers\Di\ORM\Locator\TableLocator;
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
-abstract class BaseApplication extends CakeBaseApplication implements ContainerApplicationInterface
+
+abstract class BaseApplication extends CakeApplication implements ContainerApplicationInterface
 {
     /**
-     * @var ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $container;
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    public function bootstrap()
+    public function bootstrap(): void
     {
         parent::bootstrap();
-
         $tableLocator = $this->createTableLocator();
         TableRegistry::setTableLocator($tableLocator);
     }
@@ -56,9 +62,9 @@ abstract class BaseApplication extends CakeBaseApplication implements ContainerA
     /**
      * This methods creates a default table locator that leverages app's DIC.
      *
-     * @return TableLocator
+     * @return \Robotusers\Di\ORM\Locator\TableLocator
      */
-    protected function createTableLocator()
+    protected function createTableLocator(): TableLocator
     {
         $factory = new ContainerFactory($this->getContainer());
 
@@ -66,9 +72,9 @@ abstract class BaseApplication extends CakeBaseApplication implements ContainerA
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    public function getContainer()
+    public function getContainer(): ContainerInterface
     {
         if ($this->container === null) {
             $this->container = $this->createContainer();
@@ -78,17 +84,33 @@ abstract class BaseApplication extends CakeBaseApplication implements ContainerA
     }
 
     /**
-     * This method should create and configure a DI Container used by the application.
+     * Creates a DIC compatible controller factory
      *
-     * @return ContainerInterface
+     * @return \Cake\Http\ControllerFactoryInterface
      */
-    abstract protected function createContainer();
+    private function createControllerFactory(): ControllerFactoryInterface
+    {
+        $container = $this->getContainer();
+
+        return new ControllerFactory($container);
+    }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    protected function getDispatcher()
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return ActionDispatcher::create($this);
+        if ($this->controllerFactory === null) {
+            $this->controllerFactory = $this->createControllerFactory();
+        }
+
+        return parent::handle($request);
     }
+
+    /**
+     * This method should create and configure a DI Container used by the application.
+     *
+     * @return \Psr\Container\ContainerInterface
+     */
+    abstract protected function createContainer(): ContainerInterface;
 }

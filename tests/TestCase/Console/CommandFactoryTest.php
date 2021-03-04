@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -33,26 +35,18 @@ use Robotusers\Di\Core\ContainerApplicationInterface;
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
+
 class CommandFactoryTest extends TestCase
 {
     public function testCreate()
     {
         $command = $this->createMock(Command::class);
         $name = get_class($command);
-
         $container = $this->createMock(ContainerInterface::class);
-        $container->expects($this->once())
-            ->method('get')
-            ->with($name)
-            ->willReturn($command);
-
+        $container->expects($this->once())->method('get')->with($name)->willReturn($command);
         $app = $this->createMock(ContainerApplicationInterface::class);
-        $app->expects($this->once())
-            ->method('getContainer')
-            ->willReturn($container);
-
+        $app->expects($this->once())->method('getContainer')->willReturn($container);
         $factory = new CommandFactory($app);
-
         $result = $factory->create($name);
         $this->assertSame($command, $result);
     }

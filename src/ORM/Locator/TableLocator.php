@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -25,25 +27,26 @@
 namespace Robotusers\Di\ORM\Locator;
 
 use Cake\ORM\Locator\TableLocator as BaseTableLocator;
+use Cake\ORM\Table;
 
 /**
  * Table locator with support for a factory.
  *
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
+
 class TableLocator extends BaseTableLocator
 {
-
     /**
      * @var callable
      */
     protected $factory;
 
     /**
-     * Constructor.
+     * Constructor
      *
      * @param callable $factory Table factory.
-     * @param mixed $args Rest of the arguments
+     * @param array $args Rest of the arguments
      */
     public function __construct(callable $factory, ...$args)
     {
@@ -53,9 +56,9 @@ class TableLocator extends BaseTableLocator
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    protected function _create(array $options)
+    protected function _create(array $options): Table
     {
         $factory = $this->factory;
 

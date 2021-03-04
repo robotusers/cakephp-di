@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * The MIT License
  *
@@ -22,32 +24,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Robotusers\Di\Http;
+namespace Robotusers\Di\Controller;
 
 use Cake\Controller\Controller;
-use Cake\Controller\Exception\MissingActionException;
-use Cake\Http\ControllerFactory as BaseControllerFactory;
-use Cake\Http\Response;
-use Cake\Http\ServerRequest;
-use LogicException;
+use Cake\Controller\ControllerFactory as BaseControllerFactory;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use ReflectionClass;
 use ReflectionMethod;
-use ReflectionParameter;
 
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
+
 class ControllerFactory extends BaseControllerFactory
 {
     /**
-     * @var ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $container;
 
     /**
      * Constructor.
      *
-     * @param ContainerInterface $container PSR Container
+     * @param \Psr\Container\ContainerInterface $container PSR Container
      */
     public function __construct(ContainerInterface $container)
     {
@@ -55,59 +56,64 @@ class ControllerFactory extends BaseControllerFactory
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
-    public function create(ServerRequest $request, Response $response)
+    public function create(ServerRequestInterface $request): Controller
     {
         $className = $this->getControllerClass($request);
         if ($className === null) {
             $this->missingController($request);
         }
 
-        /* @var $controller Controller */
+        /** @psalm-suppress PossiblyNullArgument */
+        $reflection = new ReflectionClass($className);
+        if ($reflection->isAbstract()) {
+            $this->missingController($request);
+        }
+
+        /** @var \Cake\Controller\Controller $controller */
         $controller = $this->container->get((string)$className);
         $controller->setRequest($request);
-        $controller->response = $response;
 
         return $controller;
     }
 
     /**
-     * Dispatches the controller action. Checks that the action
-     * exists and isn't private.
-     *
-     * @param Controller $controller Controller.
-     * @return mixed The resulting response.
-     * @throws LogicException When request is not set.
-     * @throws MissingActionException When actions are not defined or inaccessible.
+     * @inheritDoc
      */
-    public function invokeAction(Controller $controller)
+    public function invoke($controller): ResponseInterface
     {
-        $request = $controller->request;
-        if (!$request) {
-            throw new LogicException('No Request object configured. Cannot invoke action');
+        $result = $controller->startupProcess();
+        if ($result instanceof ResponseInterface) {
+            return $result;
         }
 
+        $action = $controller->getAction();
+        $args = $this->getArgs($controller);
+        $controller->invokeAction($action, $args);
+
+        $result = $controller->shutdownProcess();
+        if ($result instanceof ResponseInterface) {
+            return $result;
+        }
+
+        return $controller->getResponse();
+    }
+
+    /**
+     * Prepares arguments
+     *
+     * @param \Cake\Controller\Controller $controller Controller
+     * @return array
+     */
+    private function getArgs($controller): array
+    {
+        $request = $controller->getRequest();
         $action = $request->getParam('action');
 
-        if (!method_exists($controller, $action)) {
-            return $controller->invokeAction();
-        }
-
-        if (!$controller->isAction($action)) {
-            throw new MissingActionException([
-                'controller' => $controller->getName() . 'Controller',
-                'action' => $request->getParam('action'),
-                'prefix' => $request->getParam('prefix') ?: '',
-                'plugin' => $request->getParam('plugin'),
-            ]);
-        }
-
         $reflector = new ReflectionMethod($controller, $action);
-
-        /* @var $parameters ReflectionParameter[] */
+        /** @var \ReflectionParameter[] $parameters */
         $parameters = $reflector->getParameters();
-
         $passed = $request->getParam('pass');
         $args = [];
         $i = 0;
@@ -128,9 +134,6 @@ class ControllerFactory extends BaseControllerFactory
             $i++;
         }
 
-        /* @var callable $callable */
-        $callable = [$controller, $action];
-
-        return $callable(...$args);
+        return $args;
     }
 }
