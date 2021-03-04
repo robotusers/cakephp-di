@@ -25,7 +25,7 @@ matrix:
 before_script:
   - if [[ $DEFAULT = 1 ]]; then composer install; fi
   - if [[ $PHPCS = 1 ]]; then composer require cakephp/cakephp-codesniffer; fi
-  - if [[ $PHPSTAN = 1 ]]; then composer require phpstan/phpstan:^0.9; fi
+  - if [[ $PHPSTAN = 1 ]]; then composer require phpstan/phpstan; fi
 
 script:
   - if [[ $DEFAULT = 1 ]]; then composer test; fi

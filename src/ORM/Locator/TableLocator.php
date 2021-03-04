@@ -46,7 +46,7 @@ class TableLocator extends BaseTableLocator
      * Constructor
      *
      * @param callable $factory Table factory.
-     * @param array $args Rest of the arguments
+     * @param array<int, mixed> $args Rest of the arguments
      */
     public function __construct(callable $factory, ...$args)
     {
@@ -57,6 +57,9 @@ class TableLocator extends BaseTableLocator
 
     /**
      * @inheritDoc
+     * 
+     * @param array<string, mixed> $options
+     * @return Table
      */
     protected function _create(array $options): Table
     {
