@@ -56,10 +56,10 @@ class TableLocator extends BaseTableLocator
     }
 
     /**
-     * @inheritDoc
-     * 
-     * @param array<string, mixed> $options
-     * @return Table
+     * Creates table.
+     *
+     * @param array<string, mixed> $options Options
+     * @return \Cake\ORM\Table
      */
     protected function _create(array $options): Table
     {
