@@ -11,11 +11,11 @@ The plugin is under development and not intended to use in production yet.
 
 ## Versions
 
-Versions 0.3.x are dedicated for CakePHP 4.2 which already has built in DIC support.
+Version 0.3.x is dedicated for CakePHP 4.2 which already has built in DIC support.
 This version removes application DIC wiring as methods introduced in CakePHP 4.2
 are in conflict with this plugin.
 
-For CakePHP 3.x use 0.1.x versions. 0.2.x is intended for CakePHP 4.0 and 4.1.
+For CakePHP 3.x use CakePHP DI 0.1.x versions. CakePHP DI 0.2.x is intended for CakePHP 4.0 and 4.1
 
 ## Container Abstraction
 
