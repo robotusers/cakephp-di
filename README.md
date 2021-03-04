@@ -11,9 +11,9 @@ The plugin is under development and not intended to use in production yet.
 
 ## Versions
 
-For CakePHP 3.x use 0.1.x versions. 0.2.x is intended for CakePHP 4.x
+For CakePHP 3.x use CakePHP DI 0.1.x versions. CakePHP DI 0.2.x is intended for CakePHP 4.0 and 4.1
 
-For CakePHP 4.x try [0.2](https://github.com/robotusers/cakephp-di/tree/0.2) branch
+For CakePHP 4.2 try [0.3](https://github.com/robotusers/cakephp-di/tree/0.3) branch
 
 ## Container Abstraction
 
