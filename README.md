@@ -13,6 +13,8 @@ The plugin is under development and not intended to use in production yet.
 
 For CakePHP 3.x use 0.1.x versions. 0.2.x is intended for CakePHP 4.x
 
+For CakePHP 4.x try [0.2](https://github.com/robotusers/cakephp-di/tree/0.2) branch
+
 ## Container Abstraction
 
 This plugin provides tools for using any PSR-11 compatible DIC with CakePHP framework.
