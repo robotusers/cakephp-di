@@ -37,17 +37,9 @@ use Robotusers\Di\Test\TestSuite\TestCase;
 
 class BaseApplicationTest extends TestCase
 {
-    public function testContainer()
-    {
-        $container = $this->createMock(ContainerInterface::class);
-        $app = $this->getApplication($container);
-        $this->assertSame($container, $app->getContainer());
-    }
-
     public function testLocator()
     {
-        $container = $this->createMock(ContainerInterface::class);
-        $app = $this->getApplication($container);
+        $app = $this->getApplication();
         $app->bootstrap();
         $locator = TableRegistry::getTableLocator();
         $this->assertInstanceOf(TableLocator::class, $locator);
