@@ -26,11 +26,8 @@ declare(strict_types=1);
  */
 namespace TestApp;
 
-use Cake\Console\CommandCollection;
 use Cake\Http\MiddlewareQueue;
-use Psr\Container\ContainerInterface;
 use Robotusers\Di\Http\BaseApplication;
-use TestApp\Shell\TestShell;
 
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
@@ -38,24 +35,6 @@ use TestApp\Shell\TestShell;
 
 class Application extends BaseApplication
 {
-    protected $container;
-
-    public function __construct($configDir, ContainerInterface $container)
-    {
-        $this->container = $container;
-        parent::__construct($configDir);
-    }
-
-    public function console(CommandCollection $commands): CommandCollection
-    {
-        return $commands->add('test', TestShell::class);
-    }
-
-    protected function createContainer(): ContainerInterface
-    {
-        return $this->container;
-    }
-
     public function middleware(MiddlewareQueue $middleware): MiddlewareQueue
     {
         return $middleware;

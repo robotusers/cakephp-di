@@ -28,13 +28,7 @@ declare(strict_types=1);
 namespace Robotusers\Di\Http;
 
 use Cake\Http\BaseApplication as CakeApplication;
-use Cake\Http\ControllerFactoryInterface;
 use Cake\ORM\TableRegistry;
-use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Robotusers\Di\Controller\ControllerFactory;
-use Robotusers\Di\Core\ContainerApplicationInterface;
 use Robotusers\Di\ORM\Locator\ContainerFactory;
 use Robotusers\Di\ORM\Locator\TableLocator;
 
@@ -42,13 +36,8 @@ use Robotusers\Di\ORM\Locator\TableLocator;
  * @author Robert Pustułka <robert.pustulka@gmail.com>
  */
 
-abstract class BaseApplication extends CakeApplication implements ContainerApplicationInterface
+abstract class BaseApplication extends CakeApplication
 {
-    /**
-     * @var \Psr\Container\ContainerInterface
-     */
-    protected $container;
-
     /**
      * @inheritDoc
      */
@@ -70,47 +59,4 @@ abstract class BaseApplication extends CakeApplication implements ContainerAppli
 
         return new TableLocator($factory);
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function getContainer(): ContainerInterface
-    {
-        if ($this->container === null) {
-            $this->container = $this->createContainer();
-        }
-
-        return $this->container;
-    }
-
-    /**
-     * Creates a DIC compatible controller factory
-     *
-     * @return \Cake\Http\ControllerFactoryInterface
-     */
-    private function createControllerFactory(): ControllerFactoryInterface
-    {
-        $container = $this->getContainer();
-
-        return new ControllerFactory($container);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function handle(ServerRequestInterface $request): ResponseInterface
-    {
-        if ($this->controllerFactory === null) {
-            $this->controllerFactory = $this->createControllerFactory();
-        }
-
-        return parent::handle($request);
-    }
-
-    /**
-     * This method should create and configure a DI Container used by the application.
-     *
-     * @return \Psr\Container\ContainerInterface
-     */
-    abstract protected function createContainer(): ContainerInterface;
 }

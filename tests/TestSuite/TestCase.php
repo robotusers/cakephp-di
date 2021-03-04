@@ -44,8 +44,8 @@ class TestCase extends BaseTestCase
         Configure::write('App.namespace', 'TestApp');
     }
 
-    protected function getApplication($container)
+    protected function getApplication()
     {
-        return new Application(PLUGIN_ROOT . DS . 'tests' . DS . 'test_app', $container);
+        return new Application(PLUGIN_ROOT . DS . 'tests' . DS . 'test_app');
     }
 }

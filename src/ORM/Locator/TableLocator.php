@@ -46,7 +46,7 @@ class TableLocator extends BaseTableLocator
      * Constructor
      *
      * @param callable $factory Table factory.
-     * @param array $args Rest of the arguments
+     * @param array<int, mixed> $args Rest of the arguments
      */
     public function __construct(callable $factory, ...$args)
     {
@@ -56,7 +56,10 @@ class TableLocator extends BaseTableLocator
     }
 
     /**
-     * @inheritDoc
+     * Creates table.
+     *
+     * @param array<string, mixed> $options Options
+     * @return \Cake\ORM\Table
      */
     protected function _create(array $options): Table
     {
