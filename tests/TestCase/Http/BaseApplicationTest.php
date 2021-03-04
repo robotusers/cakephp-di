@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace Robotusers\Di\Test\TestCase\Http;
 
 use Cake\ORM\TableRegistry;
-use Psr\Container\ContainerInterface;
 use Robotusers\Di\ORM\Locator\TableLocator;
 use Robotusers\Di\Test\TestSuite\TestCase;
 

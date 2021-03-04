@@ -38,7 +38,6 @@ use Robotusers\Di\ORM\Locator\TableLocator;
 
 abstract class BaseApplication extends CakeApplication
 {
-
     /**
      * @inheritDoc
      */
