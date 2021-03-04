@@ -11,7 +11,11 @@ The plugin is under development and not intended to use in production yet.
 
 ## Versions
 
-For CakePHP 3.x use 0.1.x versions. 0.2.x is intended for CakePHP 4.x
+Versions 0.3.x are dedicated for CakePHP 4.2 which already has built in DIC support.
+This version removes application DIC wiring as methods introduced in CakePHP 4.2
+are in conflict with this plugin.
+
+For CakePHP 3.x use 0.1.x versions. 0.2.x is intended for CakePHP 4.0 and 4.1.
 
 ## Container Abstraction
 
@@ -20,77 +24,6 @@ DIC support for CakePHP is a very frequently requested feature. Although CakePHP
 is build with Dependency Injection in mind, it does not provide any build-in DIC. 
 There are many great DI Containers out there and this plugin allows you to choose 
 the one you like the most and use it with your CakePHP app.
-
-## Configuration
-
-CakePHP DI plugin provides a `Robotusers\DI\Core\ContainerApplicationInterface` 
-that your `Application` class should implement. This interface defines a 
-`getContainer()` method that should return your PSR-11 compatible container.
-
-The plugin provides a base application class that you can extend.
-
-```php
-class Application extends \Robotusers\DI\Http\BaseApplication
-{
-    protected function createContainer()
-    {
-        $container = new SomeContainer();
-
-        //configure your services
-
-        return $container;
-    }
-}
-```
-
-Note that the base class requires you to implement `createContainer()` method. 
-That is a factory method for your container as `getContainer()` needs to return 
-the same instance on each call.
-
-The `BaseApplication` class also provides some wiring for action dispatcher so 
-the controllers and actions use your DI Container.
-
-## Controllers
-
-Controllers should be registered as a service in your DIC. The plugin tries to 
-retrieve a controller from your DIC with the controller's FQCN as an id.
-For example: `$container->get('App\Controller\ArticlesController')`;
-
-The plugin also provides the ability to inject services into controller actions.
-
-The services must be passed as a parameters to the action method. The precedence 
-take the passed parameters, so for example your `view` method should look like this:
-
-```php
-//ArticlesController.php
-
-public function view($id, ArticlesServiceInterface $service)
-{
-    //code
-}
-```
-
-The `ArticlesServiceInterface` instance will be injected into the method.
-
-## Console
-
-In order to fetch a console command from a DIC you need to use a `CommandFactory` provided
-with this plugin.
-
-In your `bin/cake.php`:
-
-```php
-...
-
-use App\Application;
-use Cake\Console\CommandRunner;
-use Robotusers\Di\Console\CommandFactory;
-
-$application = new Application(dirname(__DIR__) . '/config');
-$factory = new CommandFactory($application);
-$runner = new CommandRunner($application, 'cake', $factory);
-exit($runner->run($argv));
-```
 
 ## Table Locator
 
