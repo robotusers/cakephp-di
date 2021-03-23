@@ -12,6 +12,8 @@ use Cake\Core\Plugin;
  * installed as a dependency of an application.
  */
 
+error_reporting(E_ALL);
+
 $findRoot = function ($root) {
     do {
         $lastRoot = $root;

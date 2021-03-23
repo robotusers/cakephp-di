@@ -33,6 +33,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionNamedType;
+use ReflectionParameter;
 
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
@@ -41,14 +43,14 @@ use ReflectionMethod;
 class ControllerFactory extends BaseControllerFactory
 {
     /**
-     * @var \Psr\Container\ContainerInterface
+     * @var ContainerInterface
      */
     protected $container;
 
     /**
      * Constructor.
      *
-     * @param \Psr\Container\ContainerInterface $container PSR Container
+     * @param ContainerInterface $container PSR Container
      */
     public function __construct(ContainerInterface $container)
     {
@@ -71,7 +73,7 @@ class ControllerFactory extends BaseControllerFactory
             $this->missingController($request);
         }
 
-        /** @var \Cake\Controller\Controller $controller */
+        /** @var Controller $controller */
         $controller = $this->container->get((string)$className);
         $controller->setRequest($request);
 
@@ -103,7 +105,7 @@ class ControllerFactory extends BaseControllerFactory
     /**
      * Prepares arguments
      *
-     * @param \Cake\Controller\Controller $controller Controller
+     * @param Controller $controller Controller
      * @return array
      */
     private function getArgs($controller): array
@@ -112,7 +114,7 @@ class ControllerFactory extends BaseControllerFactory
         $action = $request->getParam('action');
 
         $reflector = new ReflectionMethod($controller, $action);
-        /** @var \ReflectionParameter[] $parameters */
+        /** @var ReflectionParameter[] $parameters */
         $parameters = $reflector->getParameters();
         $passed = $request->getParam('pass');
         $args = [];
@@ -121,9 +123,13 @@ class ControllerFactory extends BaseControllerFactory
             if (isset($passed[$i])) {
                 $args[] = $passed[$i];
             } else {
-                $class = $parameter->getClass();
-                if ($class) {
-                    $id = $class->getName();
+                if ($parameter->hasType()) {
+                    $type = $parameter->getType();
+                    if ($type instanceof ReflectionNamedType) {
+                        $id = $type->getName();
+                    } else {
+                        $id = (string) $type;
+                    }
                 } else {
                     $id = $parameter->getName();
                 }
