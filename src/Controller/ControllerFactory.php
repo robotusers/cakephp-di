@@ -34,7 +34,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionNamedType;
-use ReflectionParameter;
 
 /**
  * @author Robert Pustułka <robert.pustulka@gmail.com>
@@ -43,14 +42,14 @@ use ReflectionParameter;
 class ControllerFactory extends BaseControllerFactory
 {
     /**
-     * @var ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $container;
 
     /**
      * Constructor.
      *
-     * @param ContainerInterface $container PSR Container
+     * @param \Psr\Container\ContainerInterface $container PSR Container
      */
     public function __construct(ContainerInterface $container)
     {
@@ -73,7 +72,7 @@ class ControllerFactory extends BaseControllerFactory
             $this->missingController($request);
         }
 
-        /** @var Controller $controller */
+        /** @var \Cake\Controller\Controller $controller */
         $controller = $this->container->get((string)$className);
         $controller->setRequest($request);
 
@@ -105,7 +104,7 @@ class ControllerFactory extends BaseControllerFactory
     /**
      * Prepares arguments
      *
-     * @param Controller $controller Controller
+     * @param \Cake\Controller\Controller $controller Controller
      * @return array
      */
     private function getArgs($controller): array
@@ -114,7 +113,7 @@ class ControllerFactory extends BaseControllerFactory
         $action = $request->getParam('action');
 
         $reflector = new ReflectionMethod($controller, $action);
-        /** @var ReflectionParameter[] $parameters */
+        /** @var \ReflectionParameter[] $parameters */
         $parameters = $reflector->getParameters();
         $passed = $request->getParam('pass');
         $args = [];
@@ -128,7 +127,7 @@ class ControllerFactory extends BaseControllerFactory
                     if ($type instanceof ReflectionNamedType) {
                         $id = $type->getName();
                     } else {
-                        $id = (string) $type;
+                        $id = (string)$type;
                     }
                 } else {
                     $id = $parameter->getName();
